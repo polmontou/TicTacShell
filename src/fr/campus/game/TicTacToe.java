@@ -5,8 +5,6 @@ import fr.campus.support.Cell;
 import fr.campus.support.Player;
 import fr.campus.support.Tool;
 
-import java.util.Objects;
-
 public class TicTacToe extends GameType {
     private int boardSize;
     private Cell[][] board;
@@ -23,15 +21,23 @@ public class TicTacToe extends GameType {
         }
     };
 
-    void displayBoard() {
-        System.out.println("-------------");
+    public void displayBoard() {
+        System.out.print("-");
+        for (int k = 0; k < boardSize; k++) {
+            System.out.print("----");
+        }
+        System.out.println();
         for (int i = 0; i < boardSize; i++) {
             System.out.print("|");
             for (int j = 0; j < boardSize; j++) {
                 System.out.print(board[i][j].toString()+"|");
             }
             System.out.println();
-            System.out.println("-------------");
+            System.out.print("-");
+            for (int k = 0; k < boardSize; k++) {
+                System.out.print("----");
+            }
+            System.out.println();
         }
     }
 
@@ -41,7 +47,7 @@ public class TicTacToe extends GameType {
 
         distributePawn(player1, player2);
 
-        while (!isOver() && i < 8) {
+        while (!isOver() && i < (boardSize*boardSize)) {
             displayBoard();
             if(i%2 == 0) {
                 getMove(player1);

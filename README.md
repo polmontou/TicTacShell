@@ -1,25 +1,43 @@
 # Class diagram
 ```mermaid
 classDiagram
-    Cell : -String content
-    Cell : -Player owner
-    Cell: +getContent()
-    Player : -String name
-    Player : -String pawn
-    Player: +setPawn()  
-    Game : -Player player1
-    Game : -Player player2
-    Game : -GameType currentGame
-    Game: +save()
-    Game: +load()
-    Game: +delete()
-    TicTacToe : -int size
-    TicTacToe : -Cell[size][size] cells
-    TicTacToe: +getMove()
-    TicTacToe: +playTurn()
-    TicTacToe: +displayBoard()
-    Game --> TicTacToe
+    class Cell{
+        -String content
+        -Player owner
+        +void getContent()
+    }
+    class Player{
+        -String name
+        -String pawn
+        +void setPawn()
+    }
+    class GameType {
+        -String name
+        -void displayBoard()
+        -void play()
+    }
+    class Game {
+        -Player player1
+        -Player player2
+        -GameType currentGame
+        +void play()
+    }
+    class TicTacToe {
+        -int boardSize
+        -Cell[][] board
+        +void displayBoard()
+        +void play()
+        -boolean isOver()
+        -void distributePawn()
+        -void getMove()
+        -void updateCell()
+        -boolean checkMove()
+        -boolean checkCellAvailability()
+        -boolean checkRange()
+    }
+    GameType <|-- TicTacToe : Inheritance
+    Game --> GameType
     TicTacToe --> Cell
-    Cell --> Player
+    Cell <-- Player
     Game --> Player
 ``` 
