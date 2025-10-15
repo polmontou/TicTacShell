@@ -9,12 +9,13 @@ public class Game {
     private GameType currentGame;
 
     public Game(GameType game) {
-        this.player1 = new Player("toto");
+        this.player1 = new Player("Toto");
+        this.player2 = new Player("Zouzou");
         this.currentGame = game;
     }
 
     public void play() {
-        currentGame.play(player1);
+        currentGame.play(player1, player2);
     }
 
 }

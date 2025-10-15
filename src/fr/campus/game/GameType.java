@@ -10,5 +10,5 @@ public abstract class GameType {
     }
 
     abstract void displayBoard();
-    public abstract void play(Player player);
+    public abstract void play(Player player1, Player player2);
 }

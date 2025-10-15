@@ -20,5 +20,6 @@ public class Cell {
     public String toString() {
         return content;
     }
+    public Player getPlayer() {return player;}
 
 }
