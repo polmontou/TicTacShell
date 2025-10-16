@@ -9,6 +9,6 @@ public abstract class GameType {
         this.name = name;
     }
 
-    abstract void displayBoard();
-    public abstract void play(Player player1, Player player2);
+    protected abstract void displayBoard();
+    public abstract void play();
 }

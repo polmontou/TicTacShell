@@ -4,9 +4,9 @@ public class Player {
     private String name;
     private String pawn;
 
-    public Player(String name) {
+    public Player(String name, String pawn) {
         this.name = name;
-        this.pawn = "X";
+        this.pawn = pawn;
     }
 
     //Setter
