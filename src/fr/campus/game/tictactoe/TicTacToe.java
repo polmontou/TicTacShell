@@ -8,8 +8,8 @@ import fr.campus.support.Tool;
 
 public class TicTacToe extends GameType {
     private Player[] players;
-    private final static int BOARD_SIZE = 6;
-    private final static int WIN_RULE = 3;
+    private final static int BOARD_SIZE = 9;
+    private final static int WIN_RULE = 6;
     private Cell[][] board;
     private final static int PLAYER_LIMIT = 2;
 
@@ -119,7 +119,7 @@ public class TicTacToe extends GameType {
             sameCellsInRow++;
             line++;
             col++;
-            if (sameCellsInRow == WIN_RULE) {
+            if (sameCellsInRow == WIN_RULE - 1) {
                 return true;
             }
         }
@@ -128,7 +128,7 @@ public class TicTacToe extends GameType {
             sameCellsInRow++;
             line--;
             col++;
-            if (sameCellsInRow == WIN_RULE) {
+            if (sameCellsInRow == WIN_RULE - 1) {
                 return true;
             }
         }
