@@ -6,7 +6,7 @@ public class BotPlayer extends Player {
         super(name, pawn);
     }
 
-    public int chooseInt(int maxValue){
+    public int chooseInt(int minValue, int maxValue){
         return (int)(Math.random() * maxValue);
     }
 }

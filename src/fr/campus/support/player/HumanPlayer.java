@@ -8,8 +8,8 @@ public class HumanPlayer extends Player{
         super(name, pawn);
     }
 
-    public int chooseInt(int maxValue){
-        return Tool.getUserInt();
+    public int chooseInt(int minValue, int maxValue){
+        return Tool.askForInt(minValue, maxValue);
     }
 
 }

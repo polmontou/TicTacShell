@@ -1,6 +1,4 @@
-package fr.campus.main;
-
-import fr.campus.game.GameType;
+package fr.campus.game;
 
 public class Game {
     private GameType currentGame;

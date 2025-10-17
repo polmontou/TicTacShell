@@ -9,53 +9,62 @@ import fr.campus.support.Tool;
 
 public class TicTacToe extends GameType {
     private Player[] players;
-    private final static int BOARD_SIZE = 9;
-    private final static int WIN_RULE = 4;
+    private final int MAX_SIZE = 9;
+    private static int boardSize;
+    private static int winRule = 4;
     private Cell[][] board;
     private final static int PLAYER_LIMIT = 2;
 
-    public TicTacToe(int numberOfPlayers) {
+    public TicTacToe() {
         super("TicTacToe");
-        board = new Cell[BOARD_SIZE][BOARD_SIZE];
-
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                board[i][j] = new Cell();
-            }
-        }
-
-        this.players = new Player[numberOfPlayers];
-        for (int i = 0; i < numberOfPlayers && i < PLAYER_LIMIT; i++) {
-            players[i] = new HumanPlayer("Player " + (i + 1), TicTacToePawn.distributePawn(i).getRepresentation());
-        }
     };
 
     public void displayBoard() {
         System.out.print("  |");
-        for (int l = 0; l < BOARD_SIZE; l++) {
+        for (int l = 0; l < boardSize; l++) {
             System.out.print(" "+ (l+1) +" |");
         }
         System.out.println();
         System.out.print("---");
-        for (int k = 0; k < BOARD_SIZE; k++) {
+        for (int k = 0; k < boardSize; k++) {
             System.out.print("----");
         }
         System.out.println();
-        for (int i = 0; i < BOARD_SIZE; i++) {
+        for (int i = 0; i < boardSize; i++) {
             System.out.print(i+1 +" |");
-            for (int j = 0; j < BOARD_SIZE; j++) {
+            for (int j = 0; j < boardSize; j++) {
                 System.out.print(board[i][j].toString()+"|");
             }
             System.out.println();
             System.out.print("---");
-            for (int k = 0; k < BOARD_SIZE; k++) {
+            for (int k = 0; k < boardSize; k++) {
                 System.out.print("----");
             }
             System.out.println();
         }
     }
 
+    public void init() {
+        boardSize = Tool.askForInt("What size do you want for your game? (between 1 and "+MAX_SIZE+") : ", 1, MAX_SIZE);
+        board = new Cell[boardSize][boardSize];
+
+        winRule = Tool.askForInt("How many cells in a row to win? (between 1 and "+boardSize+") : ", 1, boardSize);
+
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                board[i][j] = new Cell();
+            }
+        }
+        this.players = new Player[2];
+        for (int i = 0; i < 2; i++) {
+            players[i] = new HumanPlayer("Player " + (i + 1), TicTacToePawn.distributePawn(i).getRepresentation());
+        }
+
+        Tool.message("Your board is "+boardSize+"x"+boardSize+".\nYou have to align "+winRule+" cells to win the game.\n");
+    }
     public void play() {
+        init();
+
         int moveCount = 0;
         Player lastPlayer = null;
         TicTacToeRoundEnd results = null;
@@ -82,9 +91,6 @@ public class TicTacToe extends GameType {
     }
 
     private TicTacToeRoundEnd isOver(int moveCount) {
-        boolean win = false;
-        boolean over = false;
-
         if (isWon()) {
             return TicTacToeRoundEnd.WIN;
         } else if (boardIsFull(moveCount)) {
@@ -96,12 +102,12 @@ public class TicTacToe extends GameType {
 
     }
     private boolean boardIsFull(int moveCount) {
-        return moveCount == BOARD_SIZE * BOARD_SIZE;
+        return moveCount == boardSize * boardSize;
     }
 
     private boolean isWon() {
-        for (int line = 0; line < BOARD_SIZE; line++) {
-            for (int col = 0; col < BOARD_SIZE; col++) {
+        for (int line = 0; line < boardSize; line++) {
+            for (int col = 0; col < boardSize; col++) {
                 if (!board[line][col].isEmpty()) {
                     if (isInWinLine(line, col) || isInWinCol(line, col) || isInWinDiag(line, col)) {
                         return true;
@@ -113,23 +119,30 @@ public class TicTacToe extends GameType {
     }
 
     private boolean isInWinDiag(int line, int col) {
-        int sameCellsInRow = 1;
-        if ((line + WIN_RULE >=  BOARD_SIZE || line - WIN_RULE < 0 ) && (col + WIN_RULE >= BOARD_SIZE)) return false;
+        boolean win = checkDiag(line, col, 1) || checkDiag(line, col, -1);
+        return win;
+    }
 
-        while (line + 1 < BOARD_SIZE && col + 1 < BOARD_SIZE && board[line][col].getPlayer() == board[line + 1][col + 1].getPlayer()) {
+    private boolean checkDiag(int line, int col, int gapLine) {
+        int sameCellsInRow = 1;
+        if ((gapLine > 0 && line + winRule > boardSize) || (gapLine < 0 && line - winRule < 0) || (col + winRule > boardSize)) return false;
+
+        int testLine = line;
+        int testCol = col;
+        while (testLine + gapLine < boardSize && testCol + 1 < boardSize && board[testLine][testCol].getPlayer() == board[testLine + gapLine][testCol + 1].getPlayer()) {
             sameCellsInRow++;
-            line++;
-            col++;
-            if (sameCellsInRow == WIN_RULE) {
+            testLine++;
+            testCol++;
+            if (sameCellsInRow == winRule) {
                 return true;
             }
         }
 
-        while (line - 1 >= 0 && col + 1 < BOARD_SIZE && board[line][col].getPlayer() == board[line - 1][col + 1].getPlayer()) {
+        while (line - 1 >= 0 && col + 1 < boardSize && board[line][col].getPlayer() == board[line - 1][col + 1].getPlayer()) {
             sameCellsInRow++;
             line--;
             col++;
-            if (sameCellsInRow == WIN_RULE) {
+            if (sameCellsInRow == winRule) {
                 return true;
             }
         }
@@ -137,13 +150,13 @@ public class TicTacToe extends GameType {
     }
 
     private boolean isInWinCol(int line, int col) {
-        if (line + WIN_RULE >= BOARD_SIZE) return false;
+        if (line + winRule >= boardSize) return false;
 
         int sameCellsInRow = 1;
-        while (line + 1 < BOARD_SIZE && board[line][col].getPlayer() == board[line+1][col].getPlayer()) {
+        while (line + 1 < boardSize && board[line][col].getPlayer() == board[line+1][col].getPlayer()) {
             sameCellsInRow++;
             line++;
-            if (sameCellsInRow == WIN_RULE) {
+            if (sameCellsInRow == winRule) {
                 return true;
             }
         }
@@ -151,13 +164,13 @@ public class TicTacToe extends GameType {
     }
 
     private boolean isInWinLine(int line, int col) {
-        if (col + WIN_RULE >= BOARD_SIZE) return false;
+        if (col + winRule >= boardSize) return false;
 
         int sameCellsInRow = 1;
-        while (col + 1 < BOARD_SIZE && board[line][col].getPlayer() == board[line][col + 1].getPlayer()) {
+        while (col + 1 < boardSize && board[line][col].getPlayer() == board[line][col + 1].getPlayer()) {
             sameCellsInRow++;
             col++;
-            if (sameCellsInRow == WIN_RULE) {
+            if (sameCellsInRow == winRule) {
                 return true;
             }
         }
@@ -167,12 +180,13 @@ public class TicTacToe extends GameType {
     private void getMove(Player player) {
         int row;
         int col;
-        Tool.message("It's "+player.getName()+"'s turn!");
+        Tool.message(player.getName()+"'s turn!\n");
+
         do {
-            Tool.message("Choose a row between 1 and 3 (integer expected) : ");
-            row = player.chooseInt(BOARD_SIZE);
-            Tool.message("Choose a column between 1 and 3 (integer expected) : ");
-            col = player.chooseInt(BOARD_SIZE);
+            Tool.message("Choose a row between 1 and "+ boardSize +" (integer expected) : ");
+            row = player.chooseInt(1, boardSize);
+            Tool.message("Choose a column between 1 and "+ boardSize +" (integer expected) : ");
+            col = player.chooseInt(1, boardSize);
         } while (!checkMove(row, col));
         updateCell(row, col, player);
     }
@@ -198,7 +212,7 @@ public class TicTacToe extends GameType {
     }
 
     private boolean checkRange(int row, int column) {
-        if (row-1 < 0 || row-1 >= BOARD_SIZE || column-1 < 0 || column-1 >= BOARD_SIZE) {
+        if (row-1 < 0 || row-1 >= boardSize || column-1 < 0 || column-1 >= boardSize) {
             return false;
         }
         return true;

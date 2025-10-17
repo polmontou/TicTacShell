@@ -9,6 +9,28 @@ public class Tool {
         System.out.println(message);
     }
 
+    public static int askForInt(String message, int min, int max) {
+        message(message);
+
+        int answer = getUserInt();
+
+        while (answer < min || answer > max){
+            message("Please enter a number between " + min + " and " + max+".");
+            answer = getUserInt();
+        }
+        return answer;
+    }
+
+    public static int askForInt(int min, int max) {
+        int answer = getUserInt();
+
+        while (answer < min || answer > max){
+            message("Please enter a number between " + min + " and " + max+".");
+            answer = getUserInt();
+        }
+        return answer;
+    }
+
     public static int getUserInt() {
         Scanner sc = new Scanner(System.in);
         int answer=-5;
@@ -30,5 +52,12 @@ public class Tool {
     public static String getUserString() {
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
+    }
+
+    public static <E extends Enum<E>> E parseUserChoice(int choice, Class<E> enumClass) {
+        choice--;
+        E[] options = enumClass.getEnumConstants();
+
+        return options[choice];
     }
 }
