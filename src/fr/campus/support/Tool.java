@@ -19,6 +19,7 @@ public class Tool {
                 answer = sc.nextInt();
                 exit = true;
             } catch (InputMismatchException e) {
+                sc.nextLine();
                 message("Integer expected, try again :");
             }
         }

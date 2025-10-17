@@ -1,7 +1,5 @@
 package fr.campus.game;
 
-import fr.campus.support.Player;
-
 public abstract class GameType {
     String name;
 

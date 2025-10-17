@@ -3,13 +3,14 @@ package fr.campus.game.tictactoe;
 
 import fr.campus.game.GameType;
 import fr.campus.support.Cell;
-import fr.campus.support.Player;
+import fr.campus.support.player.HumanPlayer;
+import fr.campus.support.player.Player;
 import fr.campus.support.Tool;
 
 public class TicTacToe extends GameType {
     private Player[] players;
     private final static int BOARD_SIZE = 9;
-    private final static int WIN_RULE = 6;
+    private final static int WIN_RULE = 4;
     private Cell[][] board;
     private final static int PLAYER_LIMIT = 2;
 
@@ -25,7 +26,7 @@ public class TicTacToe extends GameType {
 
         this.players = new Player[numberOfPlayers];
         for (int i = 0; i < numberOfPlayers && i < PLAYER_LIMIT; i++) {
-            players[i] = new Player("Player " + (i + 1), TicTacToePawn.distributePawn(i).getRepresentation());
+            players[i] = new HumanPlayer("Player " + (i + 1), TicTacToePawn.distributePawn(i).getRepresentation());
         }
     };
 
@@ -112,14 +113,14 @@ public class TicTacToe extends GameType {
     }
 
     private boolean isInWinDiag(int line, int col) {
-        int sameCellsInRow = 0;
+        int sameCellsInRow = 1;
         if ((line + WIN_RULE >=  BOARD_SIZE || line - WIN_RULE < 0 ) && (col + WIN_RULE >= BOARD_SIZE)) return false;
 
         while (line + 1 < BOARD_SIZE && col + 1 < BOARD_SIZE && board[line][col].getPlayer() == board[line + 1][col + 1].getPlayer()) {
             sameCellsInRow++;
             line++;
             col++;
-            if (sameCellsInRow == WIN_RULE - 1) {
+            if (sameCellsInRow == WIN_RULE) {
                 return true;
             }
         }
@@ -128,7 +129,7 @@ public class TicTacToe extends GameType {
             sameCellsInRow++;
             line--;
             col++;
-            if (sameCellsInRow == WIN_RULE - 1) {
+            if (sameCellsInRow == WIN_RULE) {
                 return true;
             }
         }
@@ -138,11 +139,11 @@ public class TicTacToe extends GameType {
     private boolean isInWinCol(int line, int col) {
         if (line + WIN_RULE >= BOARD_SIZE) return false;
 
-        int sameCellsInRow = 0;
+        int sameCellsInRow = 1;
         while (line + 1 < BOARD_SIZE && board[line][col].getPlayer() == board[line+1][col].getPlayer()) {
             sameCellsInRow++;
             line++;
-            if (sameCellsInRow == WIN_RULE - 1) {
+            if (sameCellsInRow == WIN_RULE) {
                 return true;
             }
         }
@@ -152,11 +153,11 @@ public class TicTacToe extends GameType {
     private boolean isInWinLine(int line, int col) {
         if (col + WIN_RULE >= BOARD_SIZE) return false;
 
-        int sameCellsInRow = 0;
+        int sameCellsInRow = 1;
         while (col + 1 < BOARD_SIZE && board[line][col].getPlayer() == board[line][col + 1].getPlayer()) {
             sameCellsInRow++;
             col++;
-            if (sameCellsInRow == WIN_RULE - 1) {
+            if (sameCellsInRow == WIN_RULE) {
                 return true;
             }
         }
@@ -169,9 +170,9 @@ public class TicTacToe extends GameType {
         Tool.message("It's "+player.getName()+"'s turn!");
         do {
             Tool.message("Choose a row between 1 and 3 (integer expected) : ");
-            row = Tool.getUserInt();
+            row = player.chooseInt(BOARD_SIZE);
             Tool.message("Choose a column between 1 and 3 (integer expected) : ");
-            col = Tool.getUserInt();
+            col = player.chooseInt(BOARD_SIZE);
         } while (!checkMove(row, col));
         updateCell(row, col, player);
     }

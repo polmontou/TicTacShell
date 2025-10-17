@@ -1,6 +1,6 @@
-package fr.campus.support;
+package fr.campus.support.player;
 
-public class Player {
+public abstract class Player {
     private String name;
     private String pawn;
 
@@ -9,6 +9,7 @@ public class Player {
         this.pawn = pawn;
     }
 
+    public abstract int chooseInt(int maxValue);
     //Setter
     public void setPawn(String pawn) {
         this.pawn = pawn;
@@ -21,4 +22,5 @@ public class Player {
     public String getPawn() {
         return pawn;
     }
+
 }

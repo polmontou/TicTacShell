@@ -1,5 +1,7 @@
 package fr.campus.support;
 
+import fr.campus.support.player.Player;
+
 public class Cell {
     private String content;
     private Player player;
