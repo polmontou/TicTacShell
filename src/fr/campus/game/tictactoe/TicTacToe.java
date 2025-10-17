@@ -119,31 +119,32 @@ public class TicTacToe extends GameType {
     }
 
     private boolean isInWinDiag(int line, int col) {
-        boolean win = checkDiag(line, col, 1) || checkDiag(line, col, -1);
-        return win;
+        return checkDiag(line, col, 1) || checkDiag(line, col, -1);
     }
 
     private boolean checkDiag(int line, int col, int gapLine) {
         int sameCellsInRow = 1;
-        if ((gapLine > 0 && line + winRule > boardSize) || (gapLine < 0 && line - winRule < 0) || (col + winRule > boardSize)) return false;
+        if ((gapLine > 0 && line + winRule > boardSize) || (gapLine < 0 && (line - winRule + 1)< 0) || (col + winRule > boardSize)) return false;
 
-        int testLine = line;
-        int testCol = col;
-        while (testLine + gapLine < boardSize && testCol + 1 < boardSize && board[testLine][testCol].getPlayer() == board[testLine + gapLine][testCol + 1].getPlayer()) {
-            sameCellsInRow++;
-            testLine++;
-            testCol++;
-            if (sameCellsInRow == winRule) {
-                return true;
+        if (gapLine > 0) {
+            int testLine = line;
+            int testCol = col;
+            while (testLine + gapLine < boardSize && testCol + 1 < boardSize && board[testLine][testCol].getPlayer() == board[testLine + gapLine][testCol + 1].getPlayer()) {
+                sameCellsInRow++;
+                testLine++;
+                testCol++;
+                if (sameCellsInRow == winRule) {
+                    return true;
+                }
             }
-        }
-
-        while (line - 1 >= 0 && col + 1 < boardSize && board[line][col].getPlayer() == board[line - 1][col + 1].getPlayer()) {
-            sameCellsInRow++;
-            line--;
-            col++;
-            if (sameCellsInRow == winRule) {
-                return true;
+        } else {
+            while (line - 1 >= 0 && col + 1 < boardSize && board[line][col].getPlayer() == board[line - 1][col + 1].getPlayer()) {
+                sameCellsInRow++;
+                line--;
+                col++;
+                if (sameCellsInRow == winRule) {
+                    return true;
+                }
             }
         }
         return false;
