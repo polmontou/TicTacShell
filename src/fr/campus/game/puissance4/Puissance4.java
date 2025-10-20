@@ -53,7 +53,7 @@ public class Puissance4 extends GameType {
         int col;
         View.message(player.getName() + "'s turn !\n");
         do{
-            col = player.chooseInt("Choose a column between 1 and "+ board.getBoardSize() +" (integer expected) : ",1, board.getBoardSize());
+            col = player.chooseInt("Choose a column between 1 and "+ column +" (integer expected) : ",1, column);
         }while (!checkMove(col));
 
         board.updateCell(col,player);

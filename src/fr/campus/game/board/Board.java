@@ -52,13 +52,13 @@ public class Board {
 
     public void updateCell(int col, Player player)
     {
-        int currentLine = 0 ;
+        int currentLine = 5 ;
 
         while (!board[currentLine][col-1].isEmpty())
         {
-            currentLine++;
+            currentLine--;
         }
-
+        View.message("Position : "+ (currentLine+1) + "x" + col + ".");
         board[currentLine][col-1].setPlayer(player);
     }
 
