@@ -10,7 +10,6 @@ public abstract class GameType {
     public String getName() {
         return name;
     }
-    protected abstract void displayBoard();
     public abstract void play();
     public abstract void init();
 }

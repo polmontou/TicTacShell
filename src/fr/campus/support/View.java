@@ -1,5 +1,7 @@
 package fr.campus.support;
 
+import fr.campus.game.board.Cell;
+
 public class View {
     public static void message(String message){
         System.out.println(message);

@@ -1,6 +1,6 @@
 package fr.campus.support;
 
-import fr.campus.game.tictactoe.TicTacToePawn;
+import fr.campus.game.board.Pawn;
 import fr.campus.support.player.BotPlayer;
 import fr.campus.support.player.HumanPlayer;
 import fr.campus.support.player.Player;
@@ -66,17 +66,17 @@ public class UserInteraction {
         switch (choice) {
             case 1:
                 for (int i = 0; i < players.length; i++) {
-                    players[i] = new HumanPlayer("Player "+ (i+1), TicTacToePawn.distributePawn(i).getRepresentation());
+                    players[i] = new HumanPlayer("Player "+ (i+1), Pawn.distributePawn(i).getRepresentation());
                 }
                 break;
             case 2:
                 int j = 0;
-                players[j] = new HumanPlayer("Player "+ (j+1), TicTacToePawn.distributePawn(j).getRepresentation());
-                players[j+1] = new BotPlayer("Bot "+j,  TicTacToePawn.distributePawn(j+1).getRepresentation());
+                players[j] = new HumanPlayer("Player "+ (j+1), Pawn.distributePawn(j).getRepresentation());
+                players[j+1] = new BotPlayer("Bot "+j,  Pawn.distributePawn(j+1).getRepresentation());
                 break;
             case 3:
                 for (int i = 0; i < players.length; i++) {
-                    players[i] = new BotPlayer("Bot "+ (i+1), TicTacToePawn.distributePawn(i).getRepresentation());
+                    players[i] = new BotPlayer("Bot "+ (i+1), Pawn.distributePawn(i).getRepresentation());
                 }
         }
         List<Player> shufflableList= Arrays.asList(players);

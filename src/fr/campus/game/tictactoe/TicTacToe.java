@@ -3,7 +3,7 @@ package fr.campus.game.tictactoe;
 
 import fr.campus.game.GameType;
 import fr.campus.main.Menu;
-import fr.campus.support.Cell;
+import fr.campus.game.board.Cell;
 import fr.campus.support.View;
 import fr.campus.support.player.Player;
 import fr.campus.support.UserInteraction;
@@ -12,7 +12,7 @@ public class TicTacToe extends GameType {
     private Player[] players;
     private final int MAX_SIZE = 10000;
     private static int boardSize;
-    private static int winRule = 4;
+    private static int winRule;
     private Cell[][] board;
     private final static int PLAYER_LIMIT = 2;
     private Menu menu;

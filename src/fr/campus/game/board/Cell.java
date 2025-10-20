@@ -1,4 +1,4 @@
-package fr.campus.support;
+package fr.campus.game.board;
 
 import fr.campus.support.player.Player;
 
