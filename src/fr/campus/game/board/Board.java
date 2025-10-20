@@ -40,6 +40,28 @@ public class Board {
         View.message("Your board is "+ size +"x"+ size +".");
     }
 
+    public boolean isFull(int moveCount)
+    {
+        return moveCount == (size * size);
+    }
+
+    public boolean isFull(int moveCount,int col, int line)
+    {
+        return moveCount == (col * line);
+    }
+
+    public void updateCell(int col, Player player)
+    {
+        int currentLine = 0 ;
+
+        while (!board[currentLine][col-1].isEmpty())
+        {
+            currentLine++;
+        }
+
+        board[currentLine][col-1].setPlayer(player);
+    }
+
     public void updateCell(int row, int col, Player player) {
         board[row-1][col-1].setPlayer(player);
     }

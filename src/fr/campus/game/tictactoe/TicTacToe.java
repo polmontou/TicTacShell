@@ -64,7 +64,7 @@ public class TicTacToe extends GameType {
     private RoundEnd isOver(int moveCount) {
         if (isWon()) {
             return RoundEnd.WIN;
-        } else if (boardIsFull(moveCount)) {
+        } else if (board.isFull(moveCount)) {
             return RoundEnd.TIE;
         } else {
             return RoundEnd.NOTHING;
