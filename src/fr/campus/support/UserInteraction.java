@@ -7,19 +7,15 @@ import fr.campus.support.player.Player;
 
 import java.util.*;
 
-public class Tool {
-
-    public static void message(String message){
-        System.out.println(message);
-    }
+public class UserInteraction {
 
     public static int askForInt(String message, int min, int max) {
-        message(message);
+        View.message(message);
 
         int answer = getUserInt();
 
         while (answer < min || answer > max){
-            message("Please enter a number between " + min + " and " + max+".");
+            View.message("Please enter a number between " + min + " and " + max+".");
             answer = getUserInt();
         }
         return answer;
@@ -29,7 +25,7 @@ public class Tool {
         int answer = getUserInt();
 
         while (answer < min || answer > max){
-            message("Please enter a number between " + min + " and " + max+".");
+            View.message("Please enter a number between " + min + " and " + max+".");
             answer = getUserInt();
         }
         return answer;
@@ -46,7 +42,7 @@ public class Tool {
                 exit = true;
             } catch (InputMismatchException e) {
                 sc.nextLine();
-                message("Integer expected, try again :");
+                View.message("Integer expected, try again :");
             }
         }
 
@@ -72,10 +68,12 @@ public class Tool {
                 for (int i = 0; i < players.length; i++) {
                     players[i] = new HumanPlayer("Player "+ (i+1), TicTacToePawn.distributePawn(i).getRepresentation());
                 }
+                break;
             case 2:
                 int j = 0;
                 players[j] = new HumanPlayer("Player "+ (j+1), TicTacToePawn.distributePawn(j).getRepresentation());
                 players[j+1] = new BotPlayer("Bot "+j,  TicTacToePawn.distributePawn(j+1).getRepresentation());
+                break;
             case 3:
                 for (int i = 0; i < players.length; i++) {
                     players[i] = new BotPlayer("Bot "+ (i+1), TicTacToePawn.distributePawn(i).getRepresentation());

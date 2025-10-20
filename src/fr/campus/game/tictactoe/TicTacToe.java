@@ -4,9 +4,9 @@ package fr.campus.game.tictactoe;
 import fr.campus.game.GameType;
 import fr.campus.main.Menu;
 import fr.campus.support.Cell;
-import fr.campus.support.player.HumanPlayer;
+import fr.campus.support.View;
 import fr.campus.support.player.Player;
-import fr.campus.support.Tool;
+import fr.campus.support.UserInteraction;
 
 public class TicTacToe extends GameType {
     private Player[] players;
@@ -22,28 +22,7 @@ public class TicTacToe extends GameType {
     };
 
     public void displayBoard() {
-        System.out.print("  |");
-        for (int l = 0; l < boardSize; l++) {
-            System.out.print(" "+ (l+1) +" |");
-        }
-        System.out.println();
-        System.out.print("---");
-        for (int k = 0; k < boardSize; k++) {
-            System.out.print("----");
-        }
-        System.out.println();
-        for (int i = 0; i < boardSize; i++) {
-            System.out.print(i+1 +" |");
-            for (int j = 0; j < boardSize; j++) {
-                System.out.print(board[i][j].toString()+"|");
-            }
-            System.out.println();
-            System.out.print("---");
-            for (int k = 0; k < boardSize; k++) {
-                System.out.print("----");
-            }
-            System.out.println();
-        }
+
     }
 
 
@@ -52,10 +31,10 @@ public class TicTacToe extends GameType {
 
         this.players = menu.displayPlayerChoiceMenu();
 
-        boardSize = Tool.askForInt("What size do you want for your game? (between 1 and "+MAX_SIZE+") : ", 1, MAX_SIZE);
+        boardSize = UserInteraction.askForInt("What size do you want for your game? (between 1 and "+MAX_SIZE+") : ", 1, MAX_SIZE);
         board = new Cell[boardSize][boardSize];
 
-        winRule = Tool.askForInt("How many cells in a row to win? (between 1 and "+boardSize+") : ", 1, boardSize);
+        winRule = UserInteraction.askForInt("How many cells in a row to win? (between 1 and "+boardSize+") : ", 1, boardSize);
 
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
@@ -64,17 +43,16 @@ public class TicTacToe extends GameType {
         }
 
 
-        Tool.message("Your board is "+boardSize+"x"+boardSize+".\nYou have to align "+winRule+" cells to win the game.\n");
+        View.message("Your board is "+boardSize+"x"+boardSize+".\nYou have to align "+winRule+" cells to win the game.\n");
     }
     public void play() {
-        init();
 
         int moveCount = 0;
         Player lastPlayer = null;
         TicTacToeRoundEnd results = null;
 
         do {
-            displayBoard();
+            View.displayBoard(board, boardSize);
 
             int currentIndex = moveCount%2;
             getMove(players[currentIndex]);
@@ -85,12 +63,12 @@ public class TicTacToe extends GameType {
             results = isOver(moveCount);
         } while (results == TicTacToeRoundEnd.NOTHING);
 
-        displayBoard();
+        View.displayBoard(board, boardSize);
 
         if (results.isWon()) {
-            Tool.message(lastPlayer.getName() + " wins the game!");
+            View.message(lastPlayer.getName() + " wins the game!");
         } else {
-            Tool.message("It's a tie!");
+            View.message("It's a tie!");
         }
     }
 
@@ -185,12 +163,12 @@ public class TicTacToe extends GameType {
     private void getMove(Player player) {
         int row;
         int col;
-        Tool.message(player.getName()+"'s turn!\n");
+        View.message(player.getName()+"'s turn!\n");
 
         do {
-            Tool.message("Choose a row between 1 and "+ boardSize +" (integer expected) : ");
+            View.message("Choose a row between 1 and "+ boardSize +" (integer expected) : ");
             row = player.chooseInt(1, boardSize);
-            Tool.message("Choose a column between 1 and "+ boardSize +" (integer expected) : ");
+            View.message("Choose a column between 1 and "+ boardSize +" (integer expected) : ");
             col = player.chooseInt(1, boardSize);
         } while (!checkMove(row, col));
         updateCell(row, col, player);
@@ -205,9 +183,9 @@ public class TicTacToe extends GameType {
             if (checkCellAvailability(row, column)) {
                 return true;
             }
-            Tool.message("Cell not empty, try again!");
+            View.message("Cell not empty, try again!");
         } else {
-            Tool.message("You're out of bounds!");
+            View.message("You're out of bounds!");
         }
         return false;
     }

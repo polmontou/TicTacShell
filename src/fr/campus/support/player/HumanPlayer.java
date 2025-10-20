@@ -1,6 +1,6 @@
 package fr.campus.support.player;
 
-import fr.campus.support.Tool;
+import fr.campus.support.UserInteraction;
 
 public class HumanPlayer extends Player{
 
@@ -9,7 +9,7 @@ public class HumanPlayer extends Player{
     }
 
     public int chooseInt(int minValue, int maxValue){
-        return Tool.askForInt(minValue, maxValue);
+        return UserInteraction.askForInt(minValue, maxValue);
     }
 
 }

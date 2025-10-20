@@ -12,4 +12,5 @@ public abstract class GameType {
     }
     protected abstract void displayBoard();
     public abstract void play();
+    public abstract void init();
 }

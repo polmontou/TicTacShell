@@ -8,6 +8,7 @@ public class Game {
     }
 
     public void play() {
+        currentGame.init();
         currentGame.play();
     }
 
