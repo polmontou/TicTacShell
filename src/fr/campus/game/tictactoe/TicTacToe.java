@@ -2,6 +2,7 @@ package fr.campus.game.tictactoe;
 
 
 import fr.campus.game.GameType;
+import fr.campus.game.board.Board;
 import fr.campus.main.Menu;
 import fr.campus.game.board.Cell;
 import fr.campus.support.View;
@@ -13,7 +14,7 @@ public class TicTacToe extends GameType {
     private final int MAX_SIZE = 10000;
     private static int boardSize;
     private static int winRule;
-    private Cell[][] board;
+    private Board board;
     private final static int PLAYER_LIMIT = 2;
     private Menu menu;
 
@@ -21,30 +22,18 @@ public class TicTacToe extends GameType {
         super("TicTacToe");
     };
 
-    public void displayBoard() {
-
-    }
-
-
     public void init() {
         menu = new Menu();
 
         this.players = menu.displayPlayerChoiceMenu();
 
-        boardSize = UserInteraction.askForInt("What size do you want for your game? (between 1 and "+MAX_SIZE+") : ", 1, MAX_SIZE);
-        board = new Cell[boardSize][boardSize];
+        board = new Board();
 
-        winRule = UserInteraction.askForInt("How many cells in a row to win? (between 1 and "+boardSize+") : ", 1, boardSize);
-
-        for (int i = 0; i < boardSize; i++) {
-            for (int j = 0; j < boardSize; j++) {
-                board[i][j] = new Cell();
-            }
-        }
-
-
-        View.message("Your board is "+boardSize+"x"+boardSize+".\nYou have to align "+winRule+" cells to win the game.\n");
+        winRule = UserInteraction.askForInt("How many cells in a row to win? (between 1 and "+board.getBoardSize()+") : ", 1, board.getBoardSize());
     }
+
+
+
     public void play() {
 
         int moveCount = 0;
@@ -90,7 +79,7 @@ public class TicTacToe extends GameType {
     private boolean isWon() {
         for (int line = 0; line < boardSize; line++) {
             for (int col = 0; col < boardSize; col++) {
-                if (!board[line][col].isEmpty()) {
+                if (!board.getCell(line,col).isEmpty()) {
                     if (isInWinLine(line, col) || isInWinCol(line, col) || isInWinDiag(line, col)) {
                         return true;
                     }
@@ -111,7 +100,7 @@ public class TicTacToe extends GameType {
         if (gapLine > 0) {
             int testLine = line;
             int testCol = col;
-            while (testLine + gapLine < boardSize && testCol + 1 < boardSize && board[testLine][testCol].getPlayer() == board[testLine + gapLine][testCol + 1].getPlayer()) {
+            while (testLine + gapLine < boardSize && testCol + 1 < boardSize && board.getCell(testLine,testCol).getPlayer() == board.getCell(testLine + gapLine,testCol + 1).getPlayer()) {
                 sameCellsInRow++;
                 testLine++;
                 testCol++;
@@ -120,7 +109,7 @@ public class TicTacToe extends GameType {
                 }
             }
         } else {
-            while (line - 1 >= 0 && col + 1 < boardSize && board[line][col].getPlayer() == board[line - 1][col + 1].getPlayer()) {
+            while (line - 1 >= 0 && col + 1 < boardSize && board.getCell(line,col).getPlayer() == board.getCell(line - 1,col + 1).getPlayer()) {
                 sameCellsInRow++;
                 line--;
                 col++;
@@ -136,7 +125,7 @@ public class TicTacToe extends GameType {
         if (line + winRule >= boardSize) return false;
 
         int sameCellsInRow = 1;
-        while (line + 1 < boardSize && board[line][col].getPlayer() == board[line+1][col].getPlayer()) {
+        while (line + 1 < boardSize && board.getCell(line,col).getPlayer() == board.getCell(line+1,col).getPlayer()) {
             sameCellsInRow++;
             line++;
             if (sameCellsInRow == winRule) {
@@ -150,7 +139,7 @@ public class TicTacToe extends GameType {
         if (col + winRule >= boardSize) return false;
 
         int sameCellsInRow = 1;
-        while (col + 1 < boardSize && board[line][col].getPlayer() == board[line][col + 1].getPlayer()) {
+        while (col + 1 < boardSize && board.getCell(line,col).getPlayer() == board.getCell(line,col + 1).getPlayer()) {
             sameCellsInRow++;
             col++;
             if (sameCellsInRow == winRule) {
@@ -169,11 +158,7 @@ public class TicTacToe extends GameType {
             row = player.chooseInt("Choose a row between 1 and "+ boardSize +" (integer expected) : ", 1, boardSize);
             col = player.chooseInt("Choose a column between 1 and "+ boardSize +" (integer expected) : ",1, boardSize);
         } while (!checkMove(row, col));
-        updateCell(row, col, player);
-    }
-
-    private void updateCell(int row, int col, Player player) {
-        board[row-1][col-1].setPlayer(player);
+        board.updateCell(row, col, player);
     }
 
     private boolean checkMove(int row, int column) {
@@ -189,7 +174,7 @@ public class TicTacToe extends GameType {
     }
 
     private boolean checkCellAvailability(int row, int col) {
-        return board[row-1][col-1].isEmpty();
+        return board.getCell(row-1,col-1).isEmpty();
     }
 
     private boolean checkRange(int row, int column) {
