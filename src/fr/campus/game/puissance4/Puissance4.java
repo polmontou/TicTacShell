@@ -28,7 +28,7 @@ public class Puissance4 extends GameType {
         RoundEnd result = null;
         do {
 
-            View.displayBoard(board, line,column);
+            View.displayBoard(board, line, column);
 
             int currentIndex = moveCount%2;
 
@@ -42,7 +42,7 @@ public class Puissance4 extends GameType {
 
 
 
-        }while (result == RoundEnd.NOTHING);
+        } while (result == RoundEnd.NOTHING);
 
 
     }
@@ -179,7 +179,7 @@ public class Puissance4 extends GameType {
     {
         for(int i = 0; i < line; i++)
         {
-            if(board.getCell(col,i).isEmpty())
+            if(board.getCell(i,col-1).isEmpty())
             {
                 return true;
             }
