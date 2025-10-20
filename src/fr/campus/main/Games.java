@@ -22,6 +22,4 @@ public enum Games {
     public String toString() {
         return this.name;
     }
-
-
 }

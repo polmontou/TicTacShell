@@ -9,8 +9,26 @@ public class Board {
     private final int MAX_SIZE = 10000;
     private int size;
 
-    private void Board() {
-        size = UserInteraction.askForInt("What size do you want for your game? (between 1 and "+MAX_SIZE+") : ", 1, MAX_SIZE);
+    public Board()
+    {
+        int line = 6 ;
+        int col = 7;
+        board = new Cell[line][col];
+
+        for(int i = 0; i < line; i++)
+            {
+                for(int j = 0; j < col; j++)
+                {
+                    board[i][j] = new Cell();
+                }
+            }
+        View.message("Board created");
+        View.message("The size is : " +line+ "x"+col+".");
+    }
+
+    public Board(int size) {
+
+        this.size = size;
         board = new Cell[size][size];
 
         for (int i = 0; i < size; i++) {

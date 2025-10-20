@@ -13,7 +13,7 @@ public class TicTacToe extends GameType {
     private Player[] players;
     private final int MAX_SIZE = 10000;
     private static int boardSize;
-    private static int winRule;
+
     private Board board;
     private final static int PLAYER_LIMIT = 2;
     private Menu menu;
@@ -22,16 +22,15 @@ public class TicTacToe extends GameType {
         super("TicTacToe");
     };
 
-    public void init() {
-        menu = new Menu();
 
-        this.players = menu.displayPlayerChoiceMenu();
+@Override
+public void init() {
+    super.init();
+    winRule = UserInteraction.askForInt("How many cells in a row to win? (between 1 and "+board.getBoardSize()+") : ", 1, board.getBoardSize());
 
-        board = new Board();
-
-        winRule = UserInteraction.askForInt("How many cells in a row to win? (between 1 and "+board.getBoardSize()+") : ", 1, board.getBoardSize());
-    }
-
+    int size = UserInteraction.askForInt("What size do you want for your game? (between 1 and "+MAX_SIZE+") : ", 1, MAX_SIZE);
+    board = new Board(size);
+}
 
 
     public void play() {
@@ -59,6 +58,7 @@ public class TicTacToe extends GameType {
             View.message("It's a tie!");
         }
     }
+
 
     private RoundEnd isOver(int moveCount) {
         if (isWon()) {
