@@ -10,9 +10,8 @@ import fr.campus.support.player.Player;
 import fr.campus.support.UserInteraction;
 
 public class TicTacToe extends GameType {
-    private Player[] players;
+
     private final int MAX_SIZE = 10000;
-    private static int boardSize;
 
     private Board board;
     private final static int PLAYER_LIMIT = 2;
@@ -23,14 +22,16 @@ public class TicTacToe extends GameType {
     };
 
 
-@Override
-public void init() {
-    super.init();
-    winRule = UserInteraction.askForInt("How many cells in a row to win? (between 1 and "+board.getBoardSize()+") : ", 1, board.getBoardSize());
+    @Override
+    public void init() {
+        super.init();
 
-    int size = UserInteraction.askForInt("What size do you want for your game? (between 1 and "+MAX_SIZE+") : ", 1, MAX_SIZE);
-    board = new Board(size);
-}
+        int size = UserInteraction.askForInt("What size do you want for your game? (between 1 and "+MAX_SIZE+") : ", 1, MAX_SIZE);
+        board = new Board(size);
+
+        winRule = UserInteraction.askForInt("How many cells in a row to win? (between 1 and "+board.getBoardSize()+") : ", 1, board.getBoardSize());
+
+    }
 
 
     public void play() {
@@ -39,7 +40,7 @@ public void init() {
         RoundEnd results = null;
 
         do {
-            View.displayBoard(board, boardSize);
+            View.displayBoard(board, board.getBoardSize());
 
             int currentIndex = moveCount%2;
             getMove(players[currentIndex]);
@@ -50,7 +51,7 @@ public void init() {
             results = isOver(moveCount);
         } while (results == RoundEnd.NOTHING);
 
-        View.displayBoard(board, boardSize);
+        View.displayBoard(board, board.getBoardSize());
 
         if (results.isWon()) {
             View.message(lastPlayer.getName() + " wins the game!");
@@ -72,12 +73,12 @@ public void init() {
 
     }
     private boolean boardIsFull(int moveCount) {
-        return moveCount == boardSize * boardSize;
+        return moveCount == board.getBoardSize() * board.getBoardSize();
     }
 
     private boolean isWon() {
-        for (int line = 0; line < boardSize; line++) {
-            for (int col = 0; col < boardSize; col++) {
+        for (int line = 0; line < board.getBoardSize(); line++) {
+            for (int col = 0; col < board.getBoardSize(); col++) {
                 if (!board.getCell(line,col).isEmpty()) {
                     if (isInWinLine(line, col) || isInWinCol(line, col) || isInWinDiag(line, col)) {
                         return true;
@@ -94,12 +95,12 @@ public void init() {
 
     private boolean checkDiag(int line, int col, int gapLine) {
         int sameCellsInRow = 1;
-        if ((gapLine > 0 && line + winRule > boardSize) || (gapLine < 0 && (line - winRule + 1)< 0) || (col + winRule > boardSize)) return false;
+        if ((gapLine > 0 && line + winRule > board.getBoardSize()) || (gapLine < 0 && (line - winRule + 1)< 0) || (col + winRule > board.getBoardSize())) return false;
 
         if (gapLine > 0) {
             int testLine = line;
             int testCol = col;
-            while (testLine + gapLine < boardSize && testCol + 1 < boardSize && board.getCell(testLine,testCol).getPlayer() == board.getCell(testLine + gapLine,testCol + 1).getPlayer()) {
+            while (testLine + gapLine < board.getBoardSize() && testCol + 1 < board.getBoardSize() && board.getCell(testLine,testCol).getPlayer() == board.getCell(testLine + gapLine,testCol + 1).getPlayer()) {
                 sameCellsInRow++;
                 testLine++;
                 testCol++;
@@ -108,7 +109,7 @@ public void init() {
                 }
             }
         } else {
-            while (line - 1 >= 0 && col + 1 < boardSize && board.getCell(line,col).getPlayer() == board.getCell(line - 1,col + 1).getPlayer()) {
+            while (line - 1 >= 0 && col + 1 < board.getBoardSize() && board.getCell(line,col).getPlayer() == board.getCell(line - 1,col + 1).getPlayer()) {
                 sameCellsInRow++;
                 line--;
                 col++;
@@ -121,10 +122,10 @@ public void init() {
     }
 
     private boolean isInWinCol(int line, int col) {
-        if (line + winRule >= boardSize) return false;
+        if (line + winRule >= board.getBoardSize()) return false;
 
         int sameCellsInRow = 1;
-        while (line + 1 < boardSize && board.getCell(line,col).getPlayer() == board.getCell(line+1,col).getPlayer()) {
+        while (line + 1 < board.getBoardSize() && board.getCell(line,col).getPlayer() == board.getCell(line+1,col).getPlayer()) {
             sameCellsInRow++;
             line++;
             if (sameCellsInRow == winRule) {
@@ -135,10 +136,10 @@ public void init() {
     }
 
     private boolean isInWinLine(int line, int col) {
-        if (col + winRule >= boardSize) return false;
+        if (col + winRule >= board.getBoardSize()) return false;
 
         int sameCellsInRow = 1;
-        while (col + 1 < boardSize && board.getCell(line,col).getPlayer() == board.getCell(line,col + 1).getPlayer()) {
+        while (col + 1 < board.getBoardSize() && board.getCell(line,col).getPlayer() == board.getCell(line,col + 1).getPlayer()) {
             sameCellsInRow++;
             col++;
             if (sameCellsInRow == winRule) {
@@ -154,8 +155,8 @@ public void init() {
         View.message(player.getName()+"'s turn!\n");
 
         do {
-            row = player.chooseInt("Choose a row between 1 and "+ boardSize +" (integer expected) : ", 1, boardSize);
-            col = player.chooseInt("Choose a column between 1 and "+ boardSize +" (integer expected) : ",1, boardSize);
+            row = player.chooseInt("Choose a row between 1 and "+ board.getBoardSize() +" (integer expected) : ", 1, board.getBoardSize());
+            col = player.chooseInt("Choose a column between 1 and "+ board.getBoardSize() +" (integer expected) : ",1, board.getBoardSize());
         } while (!checkMove(row, col));
         board.updateCell(row, col, player);
     }
@@ -177,7 +178,7 @@ public void init() {
     }
 
     private boolean checkRange(int row, int column) {
-        if (row-1 < 0 || row-1 >= boardSize || column-1 < 0 || column-1 >= boardSize) {
+        if (row-1 < 0 || row-1 >= board.getBoardSize() || column-1 < 0 || column-1 >= board.getBoardSize()) {
             return false;
         }
         return true;
