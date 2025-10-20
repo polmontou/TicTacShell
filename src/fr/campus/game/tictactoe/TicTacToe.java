@@ -2,9 +2,9 @@ package fr.campus.game.tictactoe;
 
 
 import fr.campus.game.GameType;
+import fr.campus.game.RoundEnd;
 import fr.campus.game.board.Board;
 import fr.campus.main.Menu;
-import fr.campus.game.board.Cell;
 import fr.campus.support.View;
 import fr.campus.support.player.Player;
 import fr.campus.support.UserInteraction;
@@ -35,10 +35,9 @@ public class TicTacToe extends GameType {
 
 
     public void play() {
-
         int moveCount = 0;
         Player lastPlayer = null;
-        TicTacToeRoundEnd results = null;
+        RoundEnd results = null;
 
         do {
             View.displayBoard(board, boardSize);
@@ -50,7 +49,7 @@ public class TicTacToe extends GameType {
             moveCount++;
 
             results = isOver(moveCount);
-        } while (results == TicTacToeRoundEnd.NOTHING);
+        } while (results == RoundEnd.NOTHING);
 
         View.displayBoard(board, boardSize);
 
@@ -61,13 +60,13 @@ public class TicTacToe extends GameType {
         }
     }
 
-    private TicTacToeRoundEnd isOver(int moveCount) {
+    private RoundEnd isOver(int moveCount) {
         if (isWon()) {
-            return TicTacToeRoundEnd.WIN;
+            return RoundEnd.WIN;
         } else if (boardIsFull(moveCount)) {
-            return TicTacToeRoundEnd.TIE;
+            return RoundEnd.TIE;
         } else {
-            return TicTacToeRoundEnd.NOTHING;
+            return RoundEnd.NOTHING;
         }
 
 
