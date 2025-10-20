@@ -166,10 +166,8 @@ public class TicTacToe extends GameType {
         View.message(player.getName()+"'s turn!\n");
 
         do {
-            View.message("Choose a row between 1 and "+ boardSize +" (integer expected) : ");
-            row = player.chooseInt(1, boardSize);
-            View.message("Choose a column between 1 and "+ boardSize +" (integer expected) : ");
-            col = player.chooseInt(1, boardSize);
+            row = player.chooseInt("Choose a row between 1 and "+ boardSize +" (integer expected) : ", 1, boardSize);
+            col = player.chooseInt("Choose a column between 1 and "+ boardSize +" (integer expected) : ",1, boardSize);
         } while (!checkMove(row, col));
         updateCell(row, col, player);
     }

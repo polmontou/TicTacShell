@@ -9,7 +9,7 @@ public abstract class Player {
         this.pawn = pawn;
     }
 
-    public abstract int chooseInt(int minValue, int maxValue);
+    public abstract int chooseInt(String message, int minValue, int maxValue);
     //Setter
     public void setPawn(String pawn) {
         this.pawn = pawn;
