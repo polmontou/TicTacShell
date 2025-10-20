@@ -172,7 +172,7 @@ public class Puissance4 extends GameType {
 
     private boolean checkRange(int col)
     {
-        return col >= 1 && col <= board.getBoardSize();
+        return col >= 1 && col <= column;
     }
 
     private boolean checkCellAvailability(int col)

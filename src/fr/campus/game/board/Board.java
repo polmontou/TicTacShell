@@ -58,7 +58,6 @@ public class Board {
         {
             currentLine--;
         }
-        View.message("Position : "+ (currentLine+1) + "x" + col + ".");
         board[currentLine][col-1].setPlayer(player);
     }
 
