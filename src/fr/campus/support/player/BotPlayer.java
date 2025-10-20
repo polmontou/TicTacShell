@@ -7,6 +7,10 @@ public class BotPlayer extends Player {
     }
 
     public int chooseInt(int minValue, int maxValue){
-        return (int)(Math.random() * maxValue);
+        int answer;
+        do {
+            answer = (int)(Math.random() * maxValue);
+        } while (answer < minValue);
+            return answer;
     }
 }

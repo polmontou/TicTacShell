@@ -1,7 +1,11 @@
 package fr.campus.support;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import fr.campus.game.tictactoe.TicTacToePawn;
+import fr.campus.support.player.BotPlayer;
+import fr.campus.support.player.HumanPlayer;
+import fr.campus.support.player.Player;
+
+import java.util.*;
 
 public class Tool {
 
@@ -59,5 +63,28 @@ public class Tool {
         E[] options = enumClass.getEnumConstants();
 
         return options[choice];
+    }
+
+    public static Player[] parseUserPlayerChoice(int choice) {
+        Player[] players = new Player[2];
+        switch (choice) {
+            case 1:
+                for (int i = 0; i < players.length; i++) {
+                    players[i] = new HumanPlayer("Player "+ (i+1), TicTacToePawn.distributePawn(i).getRepresentation());
+                }
+            case 2:
+                int j = 0;
+                players[j] = new HumanPlayer("Player "+ (j+1), TicTacToePawn.distributePawn(j).getRepresentation());
+                players[j+1] = new BotPlayer("Bot "+j,  TicTacToePawn.distributePawn(j+1).getRepresentation());
+            case 3:
+                for (int i = 0; i < players.length; i++) {
+                    players[i] = new BotPlayer("Bot "+ (i+1), TicTacToePawn.distributePawn(i).getRepresentation());
+                }
+        }
+        List<Player> shufflableList= Arrays.asList(players);
+        Collections.shuffle(shufflableList);
+        shufflableList.toArray(players);
+
+        return players;
     }
 }

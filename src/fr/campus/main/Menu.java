@@ -2,6 +2,7 @@ package fr.campus.main;
 
 import fr.campus.game.Game;
 import fr.campus.support.Tool;
+import fr.campus.support.player.Player;
 
 import static java.lang.String.valueOf;
 
@@ -22,5 +23,19 @@ public class Menu {
 
         return wantedGame.getGame();
     }
+
+    public Player[] displayPlayerChoiceMenu() {
+        Tool.message("\nModes available :"+
+                "\n1 - 2 real players" +
+                "\n2 - 1 real vs 1 bot" +
+                "\n3 - 2 bots");
+        int choice = Tool.askForInt("Which one do you wanna play? (integer expected) : ", 1, 3);
+
+        Player[] players = Tool.parseUserPlayerChoice(choice);
+
+        return players;
+    }
+
+
 
 }

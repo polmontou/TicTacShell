@@ -2,6 +2,7 @@ package fr.campus.game.tictactoe;
 
 
 import fr.campus.game.GameType;
+import fr.campus.main.Menu;
 import fr.campus.support.Cell;
 import fr.campus.support.player.HumanPlayer;
 import fr.campus.support.player.Player;
@@ -9,11 +10,12 @@ import fr.campus.support.Tool;
 
 public class TicTacToe extends GameType {
     private Player[] players;
-    private final int MAX_SIZE = 9;
+    private final int MAX_SIZE = 10000;
     private static int boardSize;
     private static int winRule = 4;
     private Cell[][] board;
     private final static int PLAYER_LIMIT = 2;
+    private Menu menu;
 
     public TicTacToe() {
         super("TicTacToe");
@@ -44,7 +46,12 @@ public class TicTacToe extends GameType {
         }
     }
 
+
     public void init() {
+        menu = new Menu();
+
+        this.players = menu.displayPlayerChoiceMenu();
+
         boardSize = Tool.askForInt("What size do you want for your game? (between 1 and "+MAX_SIZE+") : ", 1, MAX_SIZE);
         board = new Cell[boardSize][boardSize];
 
@@ -55,10 +62,7 @@ public class TicTacToe extends GameType {
                 board[i][j] = new Cell();
             }
         }
-        this.players = new Player[2];
-        for (int i = 0; i < 2; i++) {
-            players[i] = new HumanPlayer("Player " + (i + 1), TicTacToePawn.distributePawn(i).getRepresentation());
-        }
+
 
         Tool.message("Your board is "+boardSize+"x"+boardSize+".\nYou have to align "+winRule+" cells to win the game.\n");
     }
