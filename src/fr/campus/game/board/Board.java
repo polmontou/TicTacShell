@@ -145,9 +145,6 @@ public class Board {
         return board[row][col];
     }
 
-    public int getBoardSize() {
-        return size;
-    }
 
     public int getBoardSizeX() {
         return board[0].length;

@@ -33,50 +33,7 @@ public class TicTacToe extends GameType {
 
     }
 
-
-    public void play() {
-        int moveCount = 0;
-        Player lastPlayer = null;
-        RoundEnd results = null;
-
-        do {
-            View.displayBoard(board);
-
-            int currentIndex = moveCount%2;
-            getMove(players[currentIndex]);
-            lastPlayer = players[currentIndex];
-
-            moveCount++;
-
-            results = isOver(moveCount);
-        } while (results == RoundEnd.NOTHING);
-
-        View.displayBoard(board);
-
-        if (results.isWon()) {
-            View.message(lastPlayer.getName() + " wins the game!");
-        } else {
-            View.message("It's a tie!");
-        }
-    }
-
-
-    private RoundEnd isOver(int moveCount) {
-        if (board.isWon(winRule)) {
-            return RoundEnd.WIN;
-        } else if (board.isFull(moveCount)) {
-            return RoundEnd.TIE;
-        } else {
-            return RoundEnd.NOTHING;
-        }
-
-
-    }
-    private boolean boardIsFull(int moveCount) {
-        return moveCount == board.getBoardSizeX() * board.getBoardSizeX();
-    }
-
-    private void getMove(Player player) {
+    protected void getMove(Player player) {
         int row;
         int col;
         View.message(player.getName()+"'s turn!\n");

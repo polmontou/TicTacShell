@@ -24,40 +24,7 @@ public class Puissance4 extends GameType {
         winRule = 4;
     }
 
-    @Override
-    public void play() {
-        int moveCount = 0;
-        Player lastPlayer = null;
-        RoundEnd result = null;
-        do {
-
-            View.displayBoard(board);
-
-            int currentIndex = moveCount%2;
-
-            getMove(players[currentIndex]);
-
-            lastPlayer = players[currentIndex];
-
-            moveCount++;
-
-            result = isOver(moveCount);
-
-
-
-        } while (result == RoundEnd.NOTHING);
-
-        View.displayBoard(board);
-
-        if (result.isWon()) {
-            View.message(lastPlayer.getName() + " wins the game!");
-        } else {
-            View.message("It's a tie!");
-        }
-
-    }
-
-    private void getMove(Player player)
+    protected void getMove(Player player)
     {
         int col;
         View.message(player.getName() + "'s turn !\n");
@@ -67,25 +34,6 @@ public class Puissance4 extends GameType {
 
         board.updateCell(col,player);
     }
-
-
-    private RoundEnd isOver (int moveCount)
-    {
-        if(board.isWon(winRule))
-        {
-            return RoundEnd.WIN;
-        }
-        else if(board.isFull(moveCount))
-        {
-            return RoundEnd.TIE;
-        }
-        return RoundEnd.NOTHING;
-    }
-
-
-
-
-
 
     private boolean checkMove(int col)
     {
