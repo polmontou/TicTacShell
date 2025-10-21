@@ -13,10 +13,6 @@ public class TicTacToe extends GameType {
 
     private final int MAX_SIZE = 10000;
 
-    private Board board;
-    private final static int PLAYER_LIMIT = 2;
-    private Menu menu;
-
     public TicTacToe() {
         super("TicTacToe");
     };
