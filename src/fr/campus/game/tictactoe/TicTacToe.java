@@ -62,7 +62,7 @@ public class TicTacToe extends GameType {
 
 
     private RoundEnd isOver(int moveCount) {
-        if (isWon()) {
+        if (board.isWon(winRule)) {
             return RoundEnd.WIN;
         } else if (board.isFull(moveCount)) {
             return RoundEnd.TIE;
@@ -74,79 +74,6 @@ public class TicTacToe extends GameType {
     }
     private boolean boardIsFull(int moveCount) {
         return moveCount == board.getBoardSizeX() * board.getBoardSizeX();
-    }
-
-    private boolean isWon() {
-        for (int line = 0; line < board.getBoardSize(); line++) {
-            for (int col = 0; col < board.getBoardSize(); col++) {
-                if (!board.getCell(line,col).isEmpty()) {
-                    if (isInWinLine(line, col) || isInWinCol(line, col) || isInWinDiag(line, col)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean isInWinDiag(int line, int col) {
-        return checkDiag(line, col, 1) || checkDiag(line, col, -1);
-    }
-
-    private boolean checkDiag(int line, int col, int gapLine) {
-        int sameCellsInRow = 1;
-        if ((gapLine > 0 && line + winRule > board.getBoardSizeX()) || (gapLine < 0 && (line - winRule + 1)< 0) || (col + winRule > board.getBoardSizeX())) return false;
-
-        if (gapLine > 0) {
-            int testLine = line;
-            int testCol = col;
-            while (board.getCell(testLine,testCol).getPlayer() == board.getCell(testLine + gapLine,testCol + 1).getPlayer()) {
-                sameCellsInRow++;
-                testLine++;
-                testCol++;
-                if (sameCellsInRow == winRule) {
-                    return true;
-                }
-            }
-        } else {
-            while (board.getCell(line,col).getPlayer() == board.getCell(line - 1,col + 1).getPlayer()) {
-                sameCellsInRow++;
-                line--;
-                col++;
-                if (sameCellsInRow == winRule) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean isInWinCol(int line, int col) {
-        if (line + winRule > board.getBoardSizeX()) return false;
-
-        int sameCellsInRow = 1;
-        while (line + 1 < board.getBoardSizeX() && board.getCell(line,col).getPlayer() == board.getCell(line+1,col).getPlayer()) {
-            sameCellsInRow++;
-            line++;
-            if (sameCellsInRow == winRule) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isInWinLine(int line, int col) {
-        if (col + winRule > board.getBoardSize()) return false;
-
-        int sameCellsInRow = 1;
-        while (board.getCell(line,col).getPlayer() == board.getCell(line,col + 1).getPlayer()) {
-            sameCellsInRow++;
-            col++;
-            if (sameCellsInRow == winRule) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void getMove(Player player) {

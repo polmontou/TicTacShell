@@ -40,13 +40,60 @@ public class Board {
         View.message("Your board is "+ size +"x"+ size +".");
     }
 
+
+    public boolean isWon(int winRule) {
+        for (int line = 0; line < getBoardSizeY(); line++) {
+            for (int col = 0; col < getBoardSizeX(); col++) {
+                if (!board[line][col].isEmpty()) {
+                    if (isInWinLine(line, col,winRule) || isInWinCol(line, col,winRule) || isInWinDiag(line, col,winRule)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isInWinDiag(int line, int col,  int winRule) {
+        return checkDiag(line, col, 1,winRule) || checkDiag(line, col, -1,winRule);
+    }
+
+    private boolean checkDiag(int line, int col, int gapLine, int winRule) {
+        int sameCellsInRow = 1;
+        if ((gapLine > 0 && line + winRule > getBoardSizeY()) || (gapLine < 0 && (line - winRule + 1)< 0) || (col + winRule > getBoardSizeX())) return false;
+
+        if (gapLine > 0) {
+            int testLine = line;
+            int testCol = col;
+            while (board[testLine][testCol].getPlayer() == board[testLine + gapLine][testCol + 1].getPlayer())
+            {
+                sameCellsInRow++;
+                testLine++;
+                testCol++;
+                if (sameCellsInRow == winRule) {
+                    return true;
+                }
+            }
+        } else {
+            while (board[line][col].getPlayer() == board[line - 1][col + 1].getPlayer()) {
+                sameCellsInRow++;
+                line--;
+                col++;
+                if (sameCellsInRow == winRule) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public boolean isInWinCol(int line, int col, int winRule) {
 
         int colMax = getBoardSizeY();
-        if (line + winRule >= colMax) return false;
+        if (line + winRule > colMax) return false;
 
         int sameCellsInRow = 1;
-        while (line + 1 < colMax && board[line][col].getPlayer() == board[line+1][col].getPlayer()) {
+        while (board[line][col].getPlayer() == board[line+1][col].getPlayer()) {
             sameCellsInRow++;
             line++;
             if (sameCellsInRow == winRule) {
@@ -61,10 +108,10 @@ public class Board {
 
         int RowSize = getBoardSizeX();
 
-        if (col + winRule >= RowSize) return false;
+        if (col + winRule > RowSize) return false;
 
         int sameCellsInRow = 1;
-        while (col + 1 < RowSize && board[line][col].getPlayer() == board[line][col + 1].getPlayer()) {
+        while (board[line][col].getPlayer() == board[line][col + 1].getPlayer()) {
             sameCellsInRow++;
             col++;
             if (sameCellsInRow == winRule) {
