@@ -1,6 +1,5 @@
 package fr.campus.game.board;
 
-import fr.campus.support.UserInteraction;
 import fr.campus.support.View;
 import fr.campus.support.player.Player;
 
@@ -8,6 +7,7 @@ public class Board {
     private Cell[][] board;
     private final int MAX_SIZE = 10000;
     private int size;
+
 
     public Board()
     {
@@ -38,6 +38,40 @@ public class Board {
         }
 
         View.message("Your board is "+ size +"x"+ size +".");
+    }
+
+    public boolean isInWinCol(int line, int col, int winRule) {
+
+        int colMax = getBoardSizeY();
+        if (line + winRule >= colMax) return false;
+
+        int sameCellsInRow = 1;
+        while (line + 1 < colMax && board[line][col].getPlayer() == board[line+1][col].getPlayer()) {
+            sameCellsInRow++;
+            line++;
+            if (sameCellsInRow == winRule) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public boolean isInWinLine(int line, int col, int winRule) {
+
+        int RowSize = getBoardSizeX();
+
+        if (col + winRule >= RowSize) return false;
+
+        int sameCellsInRow = 1;
+        while (col + 1 < RowSize && board[line][col].getPlayer() == board[line][col + 1].getPlayer()) {
+            sameCellsInRow++;
+            col++;
+            if (sameCellsInRow == winRule) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isFull(int moveCount)
@@ -71,5 +105,14 @@ public class Board {
 
     public int getBoardSize() {
         return size;
+    }
+
+    public int getBoardSizeX() {
+        return board[0].length;
+    }
+
+    public int getBoardSizeY()
+    {
+        return board.length;
     }
 }
