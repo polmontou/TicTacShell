@@ -9,50 +9,25 @@ public class View {
         System.out.println(message);
     }
 
-    public static void displayBoard(Board board,int lines, int col) {
+    public static void displayBoard(Board board) {
         System.out.print("  |");
-        for (int l = 0; l < col; l++) {
+        for (int l = 0; l < board.getBoardSizeX(); l++) {
             System.out.print(" " + (l + 1) + " |");
         }
         System.out.println();
         System.out.print("---");
-        for (int k = 0; k < col; k++) {
+        for (int k = 0; k < board.getBoardSizeX(); k++) {
             System.out.print("----");
         }
         System.out.println();
-        for (int i = 0; i < lines; i++) {
+        for (int i = 0; i < board.getBoardSizeY(); i++) {
             System.out.print(i + 1 + " |");
-            for (int j = 0; j < col; j++) {
+            for (int j = 0; j < board.getBoardSizeX(); j++) {
                 System.out.print(board.getCell(i, j).toString() + "|");
             }
             System.out.println();
             System.out.print("---");
-            for (int k = 0; k < col; k++) {
-                System.out.print("----");
-            }
-            System.out.println();
-        }
-    }
-
-    public static void displayBoard(Board board, int boardSize) {
-        System.out.print("  |");
-        for (int l = 0; l < boardSize; l++) {
-            System.out.print(" "+ (l+1) +" |");
-        }
-        System.out.println();
-        System.out.print("---");
-        for (int k = 0; k < boardSize; k++) {
-            System.out.print("----");
-        }
-        System.out.println();
-        for (int i = 0; i < boardSize; i++) {
-            System.out.print(i+1 +" |");
-            for (int j = 0; j < boardSize; j++) {
-                System.out.print(board.getCell(i, j).toString()+"|");
-            }
-            System.out.println();
-            System.out.print("---");
-            for (int k = 0; k < boardSize; k++) {
+            for (int k = 0; k < board.getBoardSizeX(); k++) {
                 System.out.print("----");
             }
             System.out.println();

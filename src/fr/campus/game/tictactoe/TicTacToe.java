@@ -40,7 +40,7 @@ public class TicTacToe extends GameType {
         RoundEnd results = null;
 
         do {
-            View.displayBoard(board, board.getBoardSizeX());
+            View.displayBoard(board);
 
             int currentIndex = moveCount%2;
             getMove(players[currentIndex]);
@@ -51,7 +51,7 @@ public class TicTacToe extends GameType {
             results = isOver(moveCount);
         } while (results == RoundEnd.NOTHING);
 
-        View.displayBoard(board, board.getBoardSizeX());
+        View.displayBoard(board);
 
         if (results.isWon()) {
             View.message(lastPlayer.getName() + " wins the game!");

@@ -31,7 +31,7 @@ public class Puissance4 extends GameType {
         RoundEnd result = null;
         do {
 
-            View.displayBoard(board, lineMax, columnMax);
+            View.displayBoard(board);
 
             int currentIndex = moveCount%2;
 
@@ -47,9 +47,15 @@ public class Puissance4 extends GameType {
 
         } while (result == RoundEnd.NOTHING);
 
+        View.displayBoard(board);
+
+        if (result.isWon()) {
+            View.message(lastPlayer.getName() + " wins the game!");
+        } else {
+            View.message("It's a tie!");
+        }
 
     }
-
 
     private void getMove(Player player)
     {
@@ -65,65 +71,18 @@ public class Puissance4 extends GameType {
 
     private RoundEnd isOver (int moveCount)
     {
-        if(isWon())
+        if(board.isWon(winRule))
         {
             return RoundEnd.WIN;
         }
-        else if(board.isFull(moveCount, columnMax, lineMax))
+        else if(board.isFull(moveCount))
         {
             return RoundEnd.TIE;
         }
         return RoundEnd.NOTHING;
     }
 
-    private boolean isWon() {
-        for (int line = 0; line < lineMax; line++) {
-            for (int col = 0; col < columnMax; col++) {
-                if (!board.getCell(line,col).isEmpty()) {
-                    if (board.isInWinLine(line, col,winRule) || board.isInWinCol(line, col,winRule) || isInWinDiag(line, col)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
 
-    private boolean isInWinDiag(int line, int col) {
-        return checkDiag(line, col, 1) || checkDiag(line, col, -1);
-    }
-
-
-
-    private boolean checkDiag(int line, int col, int gapLine) {
-        int sameCellsInRow = 1;
-        if ((gapLine > 0 && line + winRule > lineMax) || (gapLine < 0 && (line - winRule + 1)< 0) || (col + winRule > columnMax)) return false;
-
-        if (gapLine > 0) {
-            int testLine = line;
-            int testCol = col;
-            while (board.getCell(testLine,testCol).getPlayer() == board.getCell(testLine + gapLine,testCol + 1).getPlayer())
-            {
-                sameCellsInRow++;
-                testLine++;
-                testCol++;
-                if (sameCellsInRow == winRule) {
-                    return true;
-                }
-            }
-        } else {
-            while (line - 1 >= 0 &&
-                    col + 1 < columnMax && board.getCell(line,col).getPlayer() == board.getCell(line - 1,col + 1).getPlayer()) {
-                sameCellsInRow++;
-                line--;
-                col++;
-                if (sameCellsInRow == winRule) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
 
 

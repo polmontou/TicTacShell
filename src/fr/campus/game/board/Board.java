@@ -123,12 +123,7 @@ public class Board {
 
     public boolean isFull(int moveCount)
     {
-        return moveCount == (size * size);
-    }
-
-    public boolean isFull(int moveCount,int col, int line)
-    {
-        return moveCount == (col * line);
+        return moveCount == (getBoardSizeX() * getBoardSizeY());
     }
 
     public void updateCell(int col, Player player)
