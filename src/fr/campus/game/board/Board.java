@@ -5,8 +5,6 @@ import fr.campus.support.player.Player;
 
 public class Board {
     private Cell[][] board;
-    private final int MAX_SIZE = 10000;
-    private int size;
 
    private int boardSizeY;
    private int boardSizeX;
@@ -138,11 +136,11 @@ public class Board {
 
 
     public int getBoardSizeX() {
-        return board[0].length;
+        return boardSizeX;
     }
 
     public int getBoardSizeY()
     {
-        return board.length;
+        return boardSizeY;
     }
 }

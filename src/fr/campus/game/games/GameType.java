@@ -1,5 +1,6 @@
-package fr.campus.game;
+package fr.campus.game.games;
 
+import fr.campus.game.RoundEnd;
 import fr.campus.game.board.Board;
 import fr.campus.main.Menu;
 import fr.campus.support.View;

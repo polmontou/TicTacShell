@@ -1,9 +1,9 @@
 package fr.campus.main;
 
 import fr.campus.game.Game;
-import fr.campus.game.GameType;
-import fr.campus.game.puissance4.Puissance4;
-import fr.campus.game.tictactoe.TicTacToe;
+import fr.campus.game.games.GameType;
+import fr.campus.game.games.Puissance4;
+import fr.campus.game.games.TicTacToe;
 
 public enum Games {
     TICTACTOE(new TicTacToe()),

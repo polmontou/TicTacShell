@@ -1,16 +1,13 @@
-package fr.campus.game.puissance4;
+package fr.campus.game.games;
 
-import fr.campus.game.GameType;
 import fr.campus.support.View;
 import fr.campus.support.player.Player;
 
 public class Puissance4 extends GameType {
 
-
     public Puissance4() {
         super("Puissance4",4,6,7);
     }
-
 
     protected void getMove(Player player)
     {

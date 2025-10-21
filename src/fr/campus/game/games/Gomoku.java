@@ -1,31 +1,12 @@
-package fr.campus.game.tictactoe;
+package fr.campus.game.games;
 
-
-import fr.campus.game.GameType;
-import fr.campus.game.board.Board;
 import fr.campus.support.View;
 import fr.campus.support.player.Player;
-import fr.campus.support.UserInteraction;
 
-public class TicTacToe extends GameType {
-
-    private final int MAX_SIZE = 10000;
-
-    public TicTacToe() {
-        super("TicTacToe",4,6,7);
+public class Gomoku extends GameType{
+    public Gomoku() {
+        super("Gomoku",5,15,15);
     };
-
-
-    @Override
-    public void init() {
-        super.init();
-
-        int size = UserInteraction.askForInt("What size do you want for your game? (between 1 and "+MAX_SIZE+") : ", 1, MAX_SIZE);
-        board = new Board(size);
-
-        WIN_RULE = UserInteraction.askForInt("How many cells in a row to win? (between 1 and "+board.getBoardSizeX()+") : ", 1, board.getBoardSizeX());
-
-    }
 
     protected void getMove(Player player) {
         int row;
