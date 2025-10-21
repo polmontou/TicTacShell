@@ -3,23 +3,26 @@ package fr.campus.game.puissance4;
 import fr.campus.game.GameType;
 import fr.campus.game.RoundEnd;
 import fr.campus.game.board.Board;
-import fr.campus.main.Menu;
-import fr.campus.support.UserInteraction;
 import fr.campus.support.View;
 import fr.campus.support.player.Player;
-
-import javax.swing.border.Border;
 
 public class Puissance4 extends GameType {
 
 
-    private final int line = 6;
-    private final int column = 7;
+    private final int lineMax = 6;
+    private final int columnMax = 7;
 
     public Puissance4() {
         super("Puissance4");
     }
 
+    @Override
+    public void init() {
+        super.init();
+        board = new Board();
+
+        winRule = 4;
+    }
 
     @Override
     public void play() {
@@ -28,7 +31,7 @@ public class Puissance4 extends GameType {
         RoundEnd result = null;
         do {
 
-            View.displayBoard(board, line, column);
+            View.displayBoard(board, lineMax, columnMax);
 
             int currentIndex = moveCount%2;
 
@@ -53,8 +56,8 @@ public class Puissance4 extends GameType {
         int col;
         View.message(player.getName() + "'s turn !\n");
         do{
-            col = player.chooseInt("Choose a column between 1 and "+ column +" (integer expected) : ",1, column);
-        }while (!checkMove(col));
+            col = player.chooseInt("Choose a column between 1 and "+ columnMax +" (integer expected) : ",1, columnMax);
+        } while (!checkMove(col));
 
         board.updateCell(col,player);
     }
@@ -66,17 +69,16 @@ public class Puissance4 extends GameType {
         {
             return RoundEnd.WIN;
         }
-        else if(board.isFull(moveCount,column,line))
+        else if(board.isFull(moveCount, columnMax, lineMax))
         {
             return RoundEnd.TIE;
         }
-
         return RoundEnd.NOTHING;
     }
 
     private boolean isWon() {
-        for (int line = 0; line < board.getBoardSize(); line++) {
-            for (int col = 0; col < board.getBoardSize(); col++) {
+        for (int line = 0; line < lineMax; line++) {
+            for (int col = 0; col < columnMax; col++) {
                 if (!board.getCell(line,col).isEmpty()) {
                     if (isInWinLine(line, col) || isInWinCol(line, col) || isInWinDiag(line, col)) {
                         return true;
@@ -93,10 +95,10 @@ public class Puissance4 extends GameType {
 
 
     private boolean isInWinCol(int line, int col) {
-        if (line + winRule >= board.getBoardSize()) return false;
+        if (line + winRule >= lineMax) return false;
 
         int sameCellsInRow = 1;
-        while (line + 1 < board.getBoardSize() && board.getCell(line,col).getPlayer() == board.getCell(line+1,col).getPlayer()) {
+        while (line + 1 < lineMax && board.getCell(line,col).getPlayer() == board.getCell(line+1,col).getPlayer()) {
             sameCellsInRow++;
             line++;
             if (sameCellsInRow == winRule) {
@@ -109,12 +111,12 @@ public class Puissance4 extends GameType {
 
     private boolean checkDiag(int line, int col, int gapLine) {
         int sameCellsInRow = 1;
-        if ((gapLine > 0 && line + winRule > board.getBoardSize()) || (gapLine < 0 && (line - winRule + 1)< 0) || (col + winRule > board.getBoardSize())) return false;
+        if ((gapLine > 0 && line + winRule > lineMax) || (gapLine < 0 && (line - winRule + 1)< 0) || (col + winRule > columnMax)) return false;
 
         if (gapLine > 0) {
             int testLine = line;
             int testCol = col;
-            while (testLine + gapLine < board.getBoardSize() && testCol + 1 < board.getBoardSize() && board.getCell(testLine,testCol).getPlayer() == board.getCell(testLine + gapLine,testCol + 1).getPlayer()) {
+            while (testLine + gapLine < lineMax && testCol + 1 < columnMax && board.getCell(testLine,testCol).getPlayer() == board.getCell(testLine + gapLine,testCol + 1).getPlayer()) {
                 sameCellsInRow++;
                 testLine++;
                 testCol++;
@@ -123,7 +125,7 @@ public class Puissance4 extends GameType {
                 }
             }
         } else {
-            while (line - 1 >= 0 && col + 1 < board.getBoardSize() && board.getCell(line,col).getPlayer() == board.getCell(line - 1,col + 1).getPlayer()) {
+            while (line - 1 >= 0 && col + 1 < columnMax && board.getCell(line,col).getPlayer() == board.getCell(line - 1,col + 1).getPlayer()) {
                 sameCellsInRow++;
                 line--;
                 col++;
@@ -137,10 +139,10 @@ public class Puissance4 extends GameType {
 
 
     private boolean isInWinLine(int line, int col) {
-        if (col + winRule >= board.getBoardSize()) return false;
+        if (col + winRule >= columnMax) return false;
 
         int sameCellsInRow = 1;
-        while (col + 1 < board.getBoardSize() && board.getCell(line,col).getPlayer() == board.getCell(line,col + 1).getPlayer()) {
+        while (col + 1 < columnMax && board.getCell(line,col).getPlayer() == board.getCell(line,col + 1).getPlayer()) {
             sameCellsInRow++;
             col++;
             if (sameCellsInRow == winRule) {
@@ -172,12 +174,12 @@ public class Puissance4 extends GameType {
 
     private boolean checkRange(int col)
     {
-        return col >= 1 && col <= column;
+        return col >= 1 && col <= columnMax;
     }
 
     private boolean checkCellAvailability(int col)
     {
-        for(int i = 0; i < line; i++)
+        for(int i = 0; i < lineMax; i++)
         {
             if(board.getCell(i,col-1).isEmpty())
             {
@@ -187,12 +189,6 @@ public class Puissance4 extends GameType {
         return false;
     }
 
-    @Override
-    public void init() {
-        super.init();
-        board = new Board();
 
-        winRule = 4;
-    }
 
 }
