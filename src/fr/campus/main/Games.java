@@ -8,7 +8,7 @@ import fr.campus.game.tictactoe.TicTacToe;
 public enum Games {
     TICTACTOE(new TicTacToe()),
     PUISSANCE4(new Puissance4());
-
+    
     private String name;
     private Game game;
 

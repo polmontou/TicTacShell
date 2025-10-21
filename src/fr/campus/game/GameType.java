@@ -2,7 +2,6 @@ package fr.campus.game;
 
 import fr.campus.game.board.Board;
 import fr.campus.main.Menu;
-import fr.campus.support.UserInteraction;
 import fr.campus.support.View;
 import fr.campus.support.player.Player;
 
@@ -12,28 +11,28 @@ public abstract class GameType {
     protected Player[] players;
     protected Board board;
     protected Menu menu;
-    protected int winRule;
+    protected final int WIN_RULE;
 
-    protected int lineMax;
-    protected int columnMax;
+    protected final int LINE_MAX;
+    protected final int COLUMN_MAX;
 
-    public GameType(String name) {
+    public GameType(String name, int winRule, int lineMax, int columnMax) {
         this.name = name;
+        this.WIN_RULE = winRule;
+        this.LINE_MAX = lineMax;
+        this.COLUMN_MAX = columnMax;
     }
 
-    public void init(int lineMax, int columnMax, int winRule) {
-        this.lineMax = lineMax;
-        this.columnMax = columnMax;
-        this.winRule = winRule;
+    public void init() {
         menu = new Menu();
         this.players = menu.displayPlayerChoiceMenu();
-        board = new Board(lineMax, columnMax);
+        board = new Board(LINE_MAX, COLUMN_MAX);
     }
 
 
     private RoundEnd isOver (int moveCount)
     {
-        if(board.isWon(winRule))
+        if(board.isWon(WIN_RULE))
         {
             return RoundEnd.WIN;
         }
