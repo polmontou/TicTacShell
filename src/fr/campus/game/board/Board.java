@@ -8,37 +8,28 @@ public class Board {
     private final int MAX_SIZE = 10000;
     private int size;
 
+   private int boardSizeY;
+   private int boardSizeX;
 
-    public Board()
+
+    public Board(int line, int column)
     {
-        int line = 6 ;
-        int col = 7;
-        board = new Cell[line][col];
+        boardSizeY = line;
+        boardSizeX = column;
 
-        for(int i = 0; i < line; i++)
+        board = new Cell[boardSizeY][boardSizeX];
+
+        for(int i = 0; i < boardSizeY; i++)
             {
-                for(int j = 0; j < col; j++)
+                for(int j = 0; j < boardSizeX; j++)
                 {
                     board[i][j] = new Cell();
                 }
             }
         View.message("Board created");
-        View.message("The size is : " +line+ "x"+col+".");
+        View.message("The size is : " +boardSizeY+ "x"+boardSizeX+".");
     }
-
-    public Board(int size) {
-
-        this.size = size;
-        board = new Cell[size][size];
-
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                board[i][j] = new Cell();
-            }
-        }
-
-        View.message("Your board is "+ size +"x"+ size +".");
-    }
+    
 
 
     public boolean isWon(int winRule) {

@@ -9,19 +9,13 @@ import fr.campus.support.player.Player;
 public class Puissance4 extends GameType {
 
 
-    private final int lineMax = 6;
-    private final int columnMax = 7;
-
     public Puissance4() {
         super("Puissance4");
     }
 
     @Override
     public void init() {
-        super.init();
-        board = new Board();
-
-        winRule = 4;
+        super.init(6,7,4);
     }
 
     protected void getMove(Player player)

@@ -12,16 +12,22 @@ public abstract class GameType {
     protected Player[] players;
     protected Board board;
     protected Menu menu;
-    protected static int winRule;
+    protected int winRule;
+
+    protected int lineMax;
+    protected int columnMax;
 
     public GameType(String name) {
         this.name = name;
     }
 
-    public void init() {
+    public void init(int lineMax, int columnMax, int winRule) {
+        this.lineMax = lineMax;
+        this.columnMax = columnMax;
+        this.winRule = winRule;
         menu = new Menu();
-
         this.players = menu.displayPlayerChoiceMenu();
+        board = new Board(lineMax, columnMax);
     }
 
 
