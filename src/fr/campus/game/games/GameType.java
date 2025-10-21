@@ -12,28 +12,28 @@ public abstract class GameType {
     protected Player[] players;
     protected Board board;
     protected Menu menu;
-    protected final int WIN_RULE;
+    protected  int winRule;
 
-    protected final int LINE_MAX;
-    protected final int COLUMN_MAX;
+    protected  int lineMax;
+    protected  int columnMax;
 
     public GameType(String name, int winRule, int lineMax, int columnMax) {
         this.name = name;
-        this.WIN_RULE = winRule;
-        this.LINE_MAX = lineMax;
-        this.COLUMN_MAX = columnMax;
+        this.winRule = winRule;
+        this.lineMax = lineMax;
+        this.columnMax = columnMax;
     }
 
     public void init() {
         menu = new Menu();
         this.players = menu.displayPlayerChoiceMenu();
-        board = new Board(LINE_MAX, COLUMN_MAX);
+        board = new Board(lineMax, columnMax);
     }
 
 
     private RoundEnd isOver (int moveCount)
     {
-        if(board.isWon(WIN_RULE))
+        if(board.isWon(winRule))
         {
             return RoundEnd.WIN;
         }

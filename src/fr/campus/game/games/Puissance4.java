@@ -14,7 +14,7 @@ public class Puissance4 extends GameType {
         int col;
         View.message(player.getName() + "'s turn !\n");
         do{
-            col = player.chooseInt("Choose a column between 1 and "+ COLUMN_MAX +" (integer expected) : ",1, COLUMN_MAX);
+            col = player.chooseInt("Choose a column between 1 and "+ columnMax +" (integer expected) : ",1, columnMax);
         } while (!checkMove(col));
 
         board.updateCell(col,player);
@@ -41,12 +41,12 @@ public class Puissance4 extends GameType {
 
     private boolean checkRange(int col)
     {
-        return col >= 1 && col <= COLUMN_MAX;
+        return col >= 1 && col <= columnMax;
     }
 
     private boolean checkCellAvailability(int col)
     {
-        for(int i = 0; i < LINE_MAX; i++)
+        for(int i = 0; i < lineMax; i++)
         {
             if(board.getCell(i,col-1).isEmpty())
             {
