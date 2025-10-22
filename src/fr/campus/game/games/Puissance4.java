@@ -5,7 +5,7 @@ import fr.campus.support.player.Player;
 
 public class Puissance4 extends GameType {
 
-    public Puissance4() {
+    Puissance4() {
         super("Puissance4",4,6,7);
     }
 

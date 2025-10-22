@@ -1,6 +1,8 @@
 package fr.campus.main;
 
 import fr.campus.game.Game;
+import fr.campus.game.games.GameFactory;
+import fr.campus.game.games.Games;
 import fr.campus.support.UserInteraction;
 import fr.campus.support.View;
 import fr.campus.support.player.Player;
@@ -20,7 +22,7 @@ public class Menu {
         int choice = UserInteraction.askForInt("\nWhich one do you wanna play? (integer expected) : ", 1, list.length);
         Games wantedGame = UserInteraction.parseUserChoice(choice, Games.class);
 
-        return wantedGame.getGame();
+        return GameFactory.createGame(wantedGame);
     }
 
     public Player[] displayPlayerChoiceMenu() {

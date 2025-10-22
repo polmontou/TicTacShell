@@ -10,7 +10,7 @@ import fr.campus.support.player.Player;
 public class Freestyle extends GameType{
     private final static int MAX_SIZE = 100;
 
-    public Freestyle() {
+    Freestyle() {
         super("Freestyle",0,0,0);
     }
 
