@@ -18,7 +18,7 @@ public class Cell {
         empty = false;
         setContent(player.getPawn());
     }
-    public void setContent(String content) {
+    private void setContent(String content) {
         this.content = " "+content+" ";
     }
     //Getter

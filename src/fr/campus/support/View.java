@@ -1,8 +1,6 @@
 package fr.campus.support;
 
 import fr.campus.game.board.Board;
-import fr.campus.support.player.Player;
-
 
 public class View {
     public static void message(String message){

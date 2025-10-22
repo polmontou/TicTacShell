@@ -1,43 +1,141 @@
 # Class diagram
 ```mermaid
 classDiagram
-    class Cell{
+    class Cell {
         -String content
-        -Player owner
-        +void getContent()
+        -Player player
+        -boolean empty
+
+        +void setPlayer()
+        -void setContent()
     }
-    class Player{
+
+    class Player {
+        <<Abstract>>
         -String name
         -String pawn
-        +void setPawn()
+
+        +int chooseInt()*
     }
-    class GameType {
-        -String name
-        -void displayBoard()
-        -void play()
+    class HumanPlayer{
+        +chooseInt()
+    }
+    class BotPlayer{
+        +chooseInt()
     }
     class Game {
-        -Player player1
-        -Player player2
         -GameType currentGame
         +void play()
     }
-    class TicTacToe {
-        -int boardSize
-        -Cell[][] board
-        +void displayBoard()
+    class GameType  {
+        <<Abstract>>
+        #String name
+        #Player[] players
+        #Board board
+        #Menu menu
+        #int winRule
+        #int lineMax
+        #int columnMax
+
+        +void init()
         +void play()
-        -boolean isOver()
-        -void distributePawn()
-        -void getMove()
-        -void updateCell()
+        #void getMove()
+        -boolean checkMove()
+        -boolean checkCellAvailability()
+        -boolean checkRange()
+        -RoundEnd isOver()
+    }
+    class TicTacToe {
+    }
+    class Gomoku{
+    }
+    class Freestyle{
+    }
+    class Puissance4{
+        #void getMove()
         -boolean checkMove()
         -boolean checkCellAvailability()
         -boolean checkRange()
     }
+
+    class Board {
+        -Cell[][] board
+        -int boardSizeX
+        -int boardSizeY
+
+        +updateCell()
+        +getCell()
+        +boolean isWon()
+        +boolean isFull()
+        -boolean isInWinDiag()
+        -boolean checkDiag()
+        -boolean isInWinLine()
+        -boolean isInWinCol()
+    }
+
+    class Pawn {
+        <<Enum>>
+        X
+        O
+        -String representation
+
+        +Pawn distributePawn()
+    }
+
+    class RoundEnd{
+        <<Enum>>
+        NOTHING
+        TIE
+        WIN
+        -boolean win
+
+        +boolean isWon()
+    }
+
+    class Games{
+        <<Enum>>
+        TICTACTOE
+        PUISSANCE4
+        GOMOKU
+        FREESTYLE
+        -String name
+        -Game game
+    }
+
+    class Menu{
+        +Game displayGameChoiceMenu()
+        +Player[] displayPlayerChoiceMenu()
+    }
+
+    class UserInteraction {
+        -getUSerInt()
+        +int askForInt()
+        +parseUserChoice()
+        +parseUserPlayerChoice()
+    }
+
+    class View{
+        +message()
+        +displayBoard()
+    }
+
     GameType <|-- TicTacToe : Inheritance
+    GameType <|-- Gomoku : Inheritance
+    GameType <|-- Freestyle : Inheritance
+    GameType <|-- Puissance4 : Inheritance
+    GameType*--Player
+    GameType*--Board
+    GameType--Menu
+    GameType*--RoundEnd
+
+    Board*--Cell
+
+    Player<|--BotPlayer : Inheritance
+    Player<|--HumanPlayer : Inheritance
+    Player*--Pawn
     Game --> GameType
-    TicTacToe --> Cell
+
     Cell <-- Player
-    Game --> Player
+
+
 ``` 

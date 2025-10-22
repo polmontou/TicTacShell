@@ -10,10 +10,6 @@ public abstract class Player {
     }
 
     public abstract int chooseInt(String message, int minValue, int maxValue);
-    //Setter
-    public void setPawn(String pawn) {
-        this.pawn = pawn;
-    }
 
     //Getter
     public String getName() {

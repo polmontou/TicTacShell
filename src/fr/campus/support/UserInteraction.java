@@ -21,17 +21,7 @@ public class UserInteraction {
         return answer;
     }
 
-    public static int askForInt(int min, int max) {
-        int answer = getUserInt();
-
-        while (answer < min || answer > max){
-            View.message("Please enter a number between " + min + " and " + max+".");
-            answer = getUserInt();
-        }
-        return answer;
-    }
-
-    public static int getUserInt() {
+    private static int getUserInt() {
         Scanner sc = new Scanner(System.in);
         int answer=-5;
         boolean exit = false;

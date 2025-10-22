@@ -7,15 +7,14 @@ import fr.campus.support.View;
 import fr.campus.support.player.Player;
 
 public abstract class GameType {
-    String name;
-
+    protected String name;
     protected Player[] players;
     protected Board board;
     protected Menu menu;
     protected  int winRule;
-
     protected  int lineMax;
     protected  int columnMax;
+    protected RoundEnd status;
 
     public GameType(String name, int winRule, int lineMax, int columnMax) {
         this.name = name;
@@ -28,6 +27,7 @@ public abstract class GameType {
         menu = new Menu();
         this.players = menu.displayPlayerChoiceMenu();
         board = new Board(lineMax, columnMax);
+        this.status = RoundEnd.NOTHING;
     }
 
 
@@ -35,20 +35,17 @@ public abstract class GameType {
     {
         if(board.isWon(winRule))
         {
-            return RoundEnd.WIN;
+            status = RoundEnd.WIN;
+            return status;
         }
         else if(board.isFull(moveCount))
         {
-            return RoundEnd.TIE;
+            status = RoundEnd.TIE;
+            return status;
         }
-        return RoundEnd.NOTHING;
+        return status;
     }
 
-
-    protected abstract void getMove(Player player);
-    public String getName() {
-        return name;
-    }
     public void play()
     {
         int moveCount = 0;
@@ -74,5 +71,44 @@ public abstract class GameType {
         } else {
             View.message("It's a tie!");
         }
+    }
+
+    protected void getMove(Player player) {
+        int row;
+        int col;
+        View.message(player.getName()+"'s turn!\n");
+
+        do {
+            row = player.chooseInt("Choose a row between 1 and "+ board.getBoardSizeX() +" (integer expected) : ", 1, board.getBoardSizeX());
+            col = player.chooseInt("Choose a column between 1 and "+ board.getBoardSizeX() +" (integer expected) : ",1, board.getBoardSizeX());
+        } while (!checkMove(row, col));
+        board.updateCell(row, col, player);
+    }
+
+    private boolean checkMove(int row, int column) {
+        if (checkRange(row, column)) {
+            if (checkCellAvailability(row, column)) {
+                return true;
+            }
+            View.message("Cell not empty, try again!");
+        } else {
+            View.message("You're out of bounds!");
+        }
+        return false;
+    }
+
+    private boolean checkCellAvailability(int row, int col) {
+        return board.getCell(row-1,col-1).isEmpty();
+    }
+
+    private boolean checkRange(int row, int column) {
+        if (row-1 < 0 || row-1 >= board.getBoardSizeX() || column-1 < 0 || column-1 >= board.getBoardSizeX()) {
+            return false;
+        }
+        return true;
+    }
+
+    public String getName() {
+        return name;
     }
 }

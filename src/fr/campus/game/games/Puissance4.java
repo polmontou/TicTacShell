@@ -55,7 +55,4 @@ public class Puissance4 extends GameType {
         }
         return false;
     }
-
-
-
 }

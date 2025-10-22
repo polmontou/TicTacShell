@@ -7,7 +7,7 @@ import fr.campus.support.player.Player;
 
 public class Menu {
 
-    public Game displayMainMenu() {
+    public Game displayGameChoiceMenu() {
         View.message("\n-*- Welcome in your games' library -*-");
         View.message("\nYou can play at :");
 
