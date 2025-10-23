@@ -1,4 +1,4 @@
-package fr.campus.game;
+package fr.campus.model;
 
 public enum RoundEnd {
     NOTHING( false),

@@ -1,6 +1,6 @@
-package fr.campus.game.board;
+package fr.campus.model.board;
 
-import fr.campus.support.player.Player;
+import fr.campus.model.player.Player;
 
 public class Cell {
     private String content;

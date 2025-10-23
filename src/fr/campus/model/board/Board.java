@@ -1,7 +1,7 @@
-package fr.campus.game.board;
+package fr.campus.model.board;
 
-import fr.campus.support.View;
-import fr.campus.support.player.Player;
+import fr.campus.view.View;
+import fr.campus.model.player.Player;
 
 public class Board {
     private Cell[][] board;
@@ -24,8 +24,8 @@ public class Board {
                     board[i][j] = new Cell();
                 }
             }
-        View.message("Board created");
-        View.message("The size is : " +boardSizeY+ "x"+boardSizeX+".");
+        //View.message("Board created");
+        //View.message("The size is : " +boardSizeY+ "x"+boardSizeX+".");
     }
     
 

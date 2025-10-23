@@ -1,10 +1,10 @@
-package fr.campus.game.games;
+package fr.campus.model.games;
 
-import fr.campus.game.RoundEnd;
-import fr.campus.game.board.Board;
-import fr.campus.main.Menu;
-import fr.campus.support.View;
-import fr.campus.support.player.Player;
+import fr.campus.model.RoundEnd;
+import fr.campus.model.board.Board;
+import fr.campus.view.Menu;
+import fr.campus.view.View;
+import fr.campus.model.player.Player;
 
 public abstract class GameType {
     protected String name;
@@ -25,7 +25,7 @@ public abstract class GameType {
 
     public void init() {
         menu = new Menu();
-        this.players = menu.displayPlayerChoiceMenu();
+        //this.players = menu.displayPlayerChoiceMenu();
         board = new Board(lineMax, columnMax);
         this.status = RoundEnd.NOTHING;
     }

@@ -1,4 +1,4 @@
-package fr.campus.game.board;
+package fr.campus.model.board;
 
 public enum Pawn {
     X("X"),

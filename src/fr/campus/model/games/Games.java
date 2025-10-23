@@ -1,6 +1,4 @@
-package fr.campus.game.games;
-
-import fr.campus.game.Game;
+package fr.campus.model.games;
 
 public enum Games {
     TICTACTOE("TicTacToe"),

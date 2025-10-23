@@ -1,47 +1,31 @@
-package fr.campus.support;
+package fr.campus.controller;
 
-import fr.campus.game.board.Pawn;
-import fr.campus.support.player.BotPlayer;
-import fr.campus.support.player.HumanPlayer;
-import fr.campus.support.player.Player;
+import fr.campus.model.board.Pawn;
+import fr.campus.model.games.GameType;
+import fr.campus.model.player.BotPlayer;
+import fr.campus.model.player.HumanPlayer;
+import fr.campus.model.player.Player;
+import fr.campus.view.View;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-public class UserInteraction {
+public class GameController {
+    private View view;
+    private GameType currentGame;
 
-    public static int askForInt(String message, int min, int max) {
-        View.message(message);
-
-        int answer = getUserInt();
-
-        while (answer < min || answer > max){
-            View.message("Please enter a number between " + min + " and " + max+".");
-            answer = getUserInt();
-        }
-        return answer;
+    public GameController() {
+        this.view = new View();
     }
 
-    private static int getUserInt() {
-        Scanner sc = new Scanner(System.in);
-        int answer=-5;
-        boolean exit = false;
-
-        while(!exit) {
-            try {
-                answer = sc.nextInt();
-                exit = true;
-            } catch (InputMismatchException e) {
-                sc.nextLine();
-                View.message("Integer expected, try again :");
-            }
-        }
-
-        return answer;
+    public void initGame(){
+        view.displayMenu("game");
     }
 
-    public static String getUserString() {
-        Scanner sc = new Scanner(System.in);
-        return sc.nextLine();
+    public void play() {
+        currentGame.init();
+        currentGame.play();
     }
 
     public static <E extends Enum<E>> E parseUserChoice(int choice, Class<E> enumClass) {

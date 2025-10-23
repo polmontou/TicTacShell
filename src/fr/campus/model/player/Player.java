@@ -1,4 +1,4 @@
-package fr.campus.support.player;
+package fr.campus.model.player;
 
 public abstract class Player {
     private String name;

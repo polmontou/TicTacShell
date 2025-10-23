@@ -1,6 +1,6 @@
-package fr.campus.support.player;
+package fr.campus.model.player;
 
-import fr.campus.support.View;
+import fr.campus.view.View;
 
 public class BotPlayer extends Player {
 
@@ -9,7 +9,7 @@ public class BotPlayer extends Player {
     }
 
     public int chooseInt(String message, int minValue, int maxValue){
-        View.message(message);
+        //View.message(message);
         return (int)(Math.random() * maxValue) + 1 ;
     }
 }

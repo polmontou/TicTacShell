@@ -1,7 +1,7 @@
-package fr.campus.game.games;
+package fr.campus.model.games;
 
-import fr.campus.support.View;
-import fr.campus.support.player.Player;
+import fr.campus.view.View;
+import fr.campus.model.player.Player;
 
 public class Puissance4 extends GameType {
 

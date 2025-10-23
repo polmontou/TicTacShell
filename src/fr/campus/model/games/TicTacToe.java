@@ -1,8 +1,5 @@
-package fr.campus.game.games;
+package fr.campus.model.games;
 
-
-import fr.campus.support.View;
-import fr.campus.support.player.Player;
 
 public class TicTacToe extends GameType {
     TicTacToe() {

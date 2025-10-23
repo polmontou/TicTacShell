@@ -1,6 +1,6 @@
-package fr.campus.support.player;
+package fr.campus.model.player;
 
-import fr.campus.support.UserInteraction;
+import fr.campus.view.UserInteraction;
 
 public class HumanPlayer extends Player{
 
@@ -9,7 +9,7 @@ public class HumanPlayer extends Player{
     }
 
     public int chooseInt(String message, int minValue, int maxValue){
-        return UserInteraction.askForInt(message, minValue, maxValue);
+        return 1;//return UserInteraction.askForInt(message, minValue, maxValue);
     }
 
 }
