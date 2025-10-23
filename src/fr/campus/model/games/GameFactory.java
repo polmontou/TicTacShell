@@ -1,14 +1,16 @@
 package fr.campus.model.games;
 
+import fr.campus.controller.GameController;
+
 public class GameFactory {
 
-    public static GameType createGame(Games game)
+    public static GameType createGame(Games game, GameController controller)
     {
         return switch (game) {
-            case TICTACTOE -> new TicTacToe();
-            case PUISSANCE4 -> new Puissance4();
-            case GOMOKU -> new Gomoku();
-            case FREESTYLE -> new Freestyle();
+            case TICTACTOE -> new TicTacToe(controller);
+            case PUISSANCE4 -> new Puissance4(controller);
+            case GOMOKU -> new Gomoku(controller);
+            case FREESTYLE -> new Freestyle(controller);
         };
     }
 }

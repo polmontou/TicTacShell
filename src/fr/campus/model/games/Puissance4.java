@@ -1,15 +1,16 @@
 package fr.campus.model.games;
 
+import fr.campus.controller.GameController;
 import fr.campus.view.View;
 import fr.campus.model.player.Player;
 
 public class Puissance4 extends GameType {
 
-    Puissance4() {
+    Puissance4(GameController controller) {
         super("Puissance4",4,6,7);
     }
 
-    protected void getMove(Player player)
+    public void getMove(Player player)
     {
         int col;
         View.message(player.getName() + "'s turn !\n");

@@ -10,7 +10,7 @@ public class View {
         this.menu = new Menu();
     }
 
-    static void message(String message){
+    public static void message(String message){
         System.out.println(message);
     }
 
