@@ -59,24 +59,45 @@ public class GameController {
             int col;
             int line;
             Player currentPlayer = currentGame.getPlayers()[currentIndex];
+            boolean wrongRange;
+            boolean freeCell;
 
             view.displayBoard(board);
 
             if (currentGame instanceof Puissance4) {
                 do {
                     col = getMove(currentPlayer, "Choose a column between 1 and " + columnMax + " (integer expected) : ", 1, columnMax);
-                } while (!board.checkMove(col));
+//                    wrongRange = (col < 1 && col > columnMax);
+//                    if(wrongRange) {
+//                        View.message("You're out of bounds!\n");
+//                    }
+                    freeCell = board.checkColumnAvailability(col);
+                    if (!freeCell) {
+                        View.message("Column already full, try again!\n");
+                    }
+
+//                } while (wrongRange || !(freeCell));
+                } while (!freeCell);
                 board.updateCell(col, currentPlayer);
             } else {
                 do {
                     line = getMove(currentPlayer, "Choose a line between 1 and " + lineMax + " (integer expected) : ", 1, lineMax);
                     col = getMove(currentPlayer, "Choose a column between 1 and " + columnMax + " (integer expected) : ", 1, columnMax);
-                } while (!board.checkMove(line, col));
+//                    wrongRange = (line < 1 || line > lineMax || col < 1 || col > columnMax);
+//                    if(wrongRange) {
+//                        View.message("You're out of bounds!\n");
+//                    }
+                    freeCell = board.checkCellAvailability(line, col);
+                    if (!freeCell) {
+                        View.message("Cell not empty, try again!\n");
+                    }
+
+//                } while (wrongRange || !(freeCell));
+                } while (!freeCell);
                 board.updateCell(line, col, currentPlayer);
             }
 
-
-            lastPlayer = players[currentIndex];
+            lastPlayer = currentPlayer;
 
             moveCount++;
 
@@ -91,6 +112,7 @@ public class GameController {
             View.message("It's a tie!");
         }
     }
+
     private int getMove(Player player, String message, int minValue, int maxValue) {
         int choice;
 

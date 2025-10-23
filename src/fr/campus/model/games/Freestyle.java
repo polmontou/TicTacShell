@@ -5,7 +5,6 @@ import fr.campus.model.board.Board;
 import fr.campus.model.player.Player;
 
 public class Freestyle extends GameType{
-    private final static int MAX_SIZE = 100;
 
     Freestyle(String name, int winRule, int lineMax, int columnMax) {
         super(name, winRule, lineMax, columnMax);
