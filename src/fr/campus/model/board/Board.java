@@ -24,8 +24,6 @@ public class Board {
                     board[i][j] = new Cell();
                 }
             }
-        //View.message("Board created");
-        //View.message("The size is : " +boardSizeY+ "x"+boardSizeX+".");
     }
     
 
@@ -125,7 +123,65 @@ public class Board {
         }
         board[currentLine][col-1].setPlayer(player);
     }
+    public boolean checkMove(int line, int column) {
+        if (checkRange(line, column)) {
+            if (checkCellAvailability(line, column)) {
+                return true;
+            }
+            View.message("Cell not empty, try again!\n");
+        } else {
+            View.message("You're out of bounds!\n");
+        }
+        return false;
+    }
 
+    private boolean checkCellAvailability(int row, int col) {
+        return getCell(row-1,col-1).isEmpty();
+    }
+
+    private boolean checkRange(int row, int column) {
+        if (row-1 < 0 || row-1 >= boardSizeY || column-1 < 0 || column-1 >= boardSizeX) {
+            return false;
+        }
+        return true;
+    }
+
+    //Puissance4 logic
+    public boolean checkMove(int col)
+    {
+        if(checkRange(col))
+        {
+            if(checkCellAvailability(col))
+            {
+                return true;
+            }
+            View.message("Column already full, try again!\n");
+        }
+        else
+        {
+            View.message("You're out of bounds!\n");
+        }
+
+
+        return false;
+    }
+
+    private boolean checkRange(int col)
+    {
+        return col >= 1 && col <= boardSizeX;
+    }
+
+    private boolean checkCellAvailability(int col)
+    {
+        for(int i = 0; i < boardSizeY; i++)
+        {
+            if(getCell(i,col-1).isEmpty())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     public void updateCell(int row, int col, Player player) {
         board[row-1][col-1].setPlayer(player);
     }

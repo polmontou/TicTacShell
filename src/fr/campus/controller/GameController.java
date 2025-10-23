@@ -1,9 +1,11 @@
 package fr.campus.controller;
 
 import fr.campus.model.RoundEnd;
+import fr.campus.model.board.Board;
 import fr.campus.model.board.Pawn;
 import fr.campus.model.games.GameType;
 import fr.campus.model.games.Games;
+import fr.campus.model.games.Puissance4;
 import fr.campus.model.player.BotPlayer;
 import fr.campus.model.player.HumanPlayer;
 import fr.campus.model.player.Player;
@@ -24,24 +26,56 @@ public class GameController {
 
     public void initGame(){
         int gameChoice = view.displayMenu("game");
-        this.currentGame = parseUserChoice(gameChoice, Games.class).createGame(this);
+        Games wantedGame = parseUserChoice(gameChoice, Games.class);
+
+        if (wantedGame == Games.FREESTYLE) {
+            int winRule =  view.askForInt("How many cells in a row to win the game?", 1, wantedGame.getMaxSize());
+            wantedGame.setWinRule(winRule);
+            int lineMax = view.askForInt("How many rows in your game? (choose between 1 and " + wantedGame.getMaxSize() + "): ", 1, wantedGame.getMaxSize());
+            wantedGame.setLineMax(lineMax);
+            int columnMax =  view.askForInt("How many columns in your game? (choose between 1 and " + wantedGame.getMaxSize() + "): ", 1, wantedGame.getMaxSize());
+            wantedGame.setColumnMax(columnMax);
+        }
+        currentGame = wantedGame.createGame(wantedGame.getName(), wantedGame.getWinRule(), wantedGame.getLineMax(), wantedGame.getColumnMax());
+
 
         int playerChoice = view.displayMenu("player");
         Player[] players = createPlayerSet(playerChoice);
         currentGame.init(players);
     }
 
+
     public void play() {
         int moveCount = 0;
         Player lastPlayer = null;
         RoundEnd results = null;
         Player[] players = currentGame.getPlayers();
+        Board board = currentGame.getBoard();
+        int lineMax = board.getBoardSizeY();
+        int columnMax = board.getBoardSizeX();
 
         do {
-            view.displayBoard(currentGame.getBoard());
-
             int currentIndex = moveCount%2;
-            currentGame.getMove(players[currentIndex]);
+            int col;
+            int line;
+            Player currentPlayer = currentGame.getPlayers()[currentIndex];
+
+            view.displayBoard(board);
+
+            if (currentGame instanceof Puissance4) {
+                do {
+                    col = getMove(currentPlayer, "Choose a column between 1 and " + columnMax + " (integer expected) : ", 1, columnMax);
+                } while (!board.checkMove(col));
+                board.updateCell(col, currentPlayer);
+            } else {
+                do {
+                    line = getMove(currentPlayer, "Choose a line between 1 and " + lineMax + " (integer expected) : ", 1, lineMax);
+                    col = getMove(currentPlayer, "Choose a column between 1 and " + columnMax + " (integer expected) : ", 1, columnMax);
+                } while (!board.checkMove(line, col));
+                board.updateCell(line, col, currentPlayer);
+            }
+
+
             lastPlayer = players[currentIndex];
 
             moveCount++;
@@ -57,6 +91,18 @@ public class GameController {
             View.message("It's a tie!");
         }
     }
+    private int getMove(Player player, String message, int minValue, int maxValue) {
+        int choice;
+
+        if (player instanceof BotPlayer) {
+            choice = player.chooseInt(maxValue);
+            View.message(message + "\n"+player.getName()+" chooses "+choice);
+        } else {
+            choice = view.askForInt(message, minValue, maxValue);
+        }
+        return choice;
+    }
+
 
     private Player[] createPlayerSet(int choice) {
         return parseUserPlayerChoice(choice);
@@ -74,17 +120,17 @@ public class GameController {
         switch (choice) {
             case 1:
                 for (int i = 0; i < players.length; i++) {
-                    players[i] = new HumanPlayer("Player "+ (i+1), Pawn.distributePawn(i).getRepresentation(), this);
+                    players[i] = new HumanPlayer("Player "+ (i+1), Pawn.distributePawn(i).getRepresentation());
                 }
                 break;
             case 2:
                 int j = 0;
-                players[j] = new HumanPlayer("Player "+ (j+1), Pawn.distributePawn(j).getRepresentation(), this);
-                players[j+1] = new BotPlayer("Bot "+j,  Pawn.distributePawn(j+1).getRepresentation(), this);
+                players[j] = new HumanPlayer("Player "+ (j+1), Pawn.distributePawn(j).getRepresentation());
+                players[j+1] = new BotPlayer("Bot "+j,  Pawn.distributePawn(j+1).getRepresentation());
                 break;
             case 3:
                 for (int i = 0; i < players.length; i++) {
-                    players[i] = new BotPlayer("Bot "+ (i+1), Pawn.distributePawn(i).getRepresentation(), this);
+                    players[i] = new BotPlayer("Bot "+ (i+1), Pawn.distributePawn(i).getRepresentation());
                 }
         }
         List<Player> shufflableList= Arrays.asList(players);
