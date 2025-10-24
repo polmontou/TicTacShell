@@ -113,6 +113,7 @@ public class GameController {
         }
     }
 
+
     private int getMove(Player player, String message, int minValue, int maxValue) {
         int choice;
 
@@ -162,7 +163,4 @@ public class GameController {
         return players;
     }
 
-    public int askForInt(String message, int min, int max) {
-        return view.askForInt(message, min, max);
-    }
 }
