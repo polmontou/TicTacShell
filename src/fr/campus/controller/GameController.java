@@ -21,25 +21,27 @@ public class GameController {
     private GameType currentGame;
     private Menu menu;
     public GameController() {
-        this.view = new View();
+        this.menu = new Menu();
     }
 
     public void initGame(){
-        int gameChoice = view.displayMenu("game");
+        menu.displayGameChoiceMenu();
+        int gameChoice = menu.askForInt("Which one do you wanna play ?",1,Games.values().length);
         Games wantedGame = parseUserChoice(gameChoice, Games.class);
 
         if (wantedGame == Games.FREESTYLE) {
-            int winRule =  view.askForInt("How many cells in a row to win the game?", 1, wantedGame.getMaxSize());
+            int winRule =  menu.askForInt("How many cells in a row to win the game?", 1, wantedGame.getMaxSize());
             wantedGame.setWinRule(winRule);
-            int lineMax = view.askForInt("How many rows in your game? (choose between 1 and " + wantedGame.getMaxSize() + "): ", 1, wantedGame.getMaxSize());
+            int lineMax = menu.askForInt("How many rows in your game? (choose between 1 and " + wantedGame.getMaxSize() + "): ", 1, wantedGame.getMaxSize());
             wantedGame.setLineMax(lineMax);
-            int columnMax =  view.askForInt("How many columns in your game? (choose between 1 and " + wantedGame.getMaxSize() + "): ", 1, wantedGame.getMaxSize());
+            int columnMax =  menu.askForInt("How many columns in your game? (choose between 1 and " + wantedGame.getMaxSize() + "): ", 1, wantedGame.getMaxSize());
             wantedGame.setColumnMax(columnMax);
         }
         currentGame = wantedGame.createGame(wantedGame.getName(), wantedGame.getWinRule(), wantedGame.getLineMax(), wantedGame.getColumnMax());
 
 
-        int playerChoice = view.displayMenu("player");
+        menu.displayPlayerChoiceMenu();
+        int playerChoice = menu.askForInt("which mode do you wanna play ?",1,3);
         Player[] players = createPlayerSet(playerChoice);
         currentGame.init(players);
     }
@@ -62,7 +64,7 @@ public class GameController {
             boolean wrongRange;
             boolean freeCell;
 
-            view.displayBoard(board);
+            menu.displayBoard(board);
 
             if (currentGame instanceof Puissance4) {
                 do {
@@ -70,7 +72,7 @@ public class GameController {
 
                     freeCell = board.checkColumnAvailability(col);
                     if (!freeCell) {
-                        View.message("Column already full, try again!\n");//Refacto
+                        menu.showLog("Column already full, try again!\n");//Refacto
                     }
 
                 } while (!freeCell);
@@ -82,7 +84,7 @@ public class GameController {
 
                     freeCell = board.checkCellAvailability(line, col);
                     if (!freeCell) {
-                        View.message("Cell not empty, try again!\n"); //Refacto
+                        menu.showLog("Cell not empty, try again!\n"); //Refacto
                     }
 
                 } while (!freeCell);
@@ -96,12 +98,12 @@ public class GameController {
             results = currentGame.isOver(moveCount);
         } while (results == RoundEnd.NOTHING);
 
-        view.displayBoard(currentGame.getBoard());
+        menu.displayBoard(currentGame.getBoard());
 
         if (results.isWon()) {
-            View.message(lastPlayer.getName() + " wins the game!");//Refacto
+            menu.showLog(lastPlayer.getName() + " wins the game!");//Refacto
         } else {
-            View.message("It's a tie!");//Refacto
+            menu.showLog("It's a tie!");//Refacto
         }
     }
 
@@ -111,9 +113,9 @@ public class GameController {
 
         if (player instanceof BotPlayer) {
             choice = player.chooseInt(maxValue);
-            View.message(message + "\n"+player.getName()+" chooses "+choice);
+            menu.showLog(message + "\n"+player.getName()+" chooses "+choice);
         } else {
-            choice = view.askForInt(message, minValue, maxValue);
+            choice = menu.askForInt(message, minValue, maxValue);
         }
         return choice;
     }

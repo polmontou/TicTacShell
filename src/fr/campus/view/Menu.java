@@ -1,5 +1,6 @@
 package fr.campus.view;
 
+import fr.campus.model.board.Board;
 import fr.campus.model.games.Games;
 
 import java.util.InputMismatchException;
@@ -26,27 +27,38 @@ private UserInteraction userInteraction;
                 "\n3 - 2 bots");
     }
 
-    int askForInt(String message, int min, int max) {
+    public void displayBoard(Board board)
+    {
+        view.displayBoard(board);
+    }
+
+    public int askForInt(String message, int min, int max) {
         showLog(message);
 
-        while(!exit) {
-            try {
-                answer = sc.nextInt();
-                exit = true;
-            } catch (InputMismatchException e) {
-                sc.nextLine();
-                showLog(("Integer expected, try again :");
-            }
-        }
+        boolean exit = false;
+        int answer = 0;
 
-        int answer = userInteraction.getUserInt();
+        answer = intVerification(exit, answer);
 
 
         while (answer < min || answer > max){
+
             showLog("Please enter a number between " + min + " and " + max+".");
-            answer = userInteraction.getUserInt();
+            answer = intVerification(exit,answer);
         }
 
+        return answer;
+    }
+
+    private int intVerification(boolean exit, int answer) {
+        while(!exit) {
+            try {
+                answer = userInteraction.getUserInt();
+                exit = true;
+            } catch (InputMismatchException e) {
+                showLog("Integer expected, try again :");
+            }
+        }
         return answer;
     }
 

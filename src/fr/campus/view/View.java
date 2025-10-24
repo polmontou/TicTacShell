@@ -42,17 +42,17 @@ public class View {
         switch(menuType){
             case "game":
                 menu.displayGameChoiceMenu();
-                return UserInteraction.askForInt("Which one do you wanna play? (integer expected) : ", 1, Games.values().length);
+                return menu.askForInt("Which one do you wanna play? (integer expected) : ", 1, Games.values().length);
             case "player":
                 menu.displayPlayerChoiceMenu();
-                return UserInteraction.askForInt("Which mode do you wanna play? (integer expected) : ", 1, 3);
+                return menu.askForInt("Which mode do you wanna play? (integer expected) : ", 1, 3);
             default:
                 return 0;
         }
     }
 
     public int askForInt(String message, int min, int max){
-        return UserInteraction.askForInt(message, min, max);
+        return menu.askForInt(message, min, max);
     }
 
 }
