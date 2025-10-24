@@ -1,14 +1,8 @@
 package fr.campus.view;
 
 import fr.campus.model.board.Board;
-import fr.campus.model.games.Games;
 
 public class View {
-    private Menu menu;
-
-    public View(){
-        this.menu = new Menu();
-    }
 
     public void displayLog(String message){
         System.out.println(message);
@@ -38,21 +32,6 @@ public class View {
             System.out.println();
         }
     }
-    public int displayMenu(String menuType){
-        switch(menuType){
-            case "game":
-                menu.displayGameChoiceMenu();
-                return menu.askForInt("Which one do you wanna play? (integer expected) : ", 1, Games.values().length);
-            case "player":
-                menu.displayPlayerChoiceMenu();
-                return menu.askForInt("Which mode do you wanna play? (integer expected) : ", 1, 3);
-            default:
-                return 0;
-        }
-    }
 
-    public int askForInt(String message, int min, int max){
-        return menu.askForInt(message, min, max);
-    }
 
 }
