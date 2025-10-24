@@ -3,6 +3,7 @@ package fr.campus.controller;
 import fr.campus.model.RoundEnd;
 import fr.campus.model.board.Board;
 import fr.campus.model.board.Pawn;
+import fr.campus.model.games.GameFactory;
 import fr.campus.model.games.GameType;
 import fr.campus.model.games.Games;
 import fr.campus.model.games.Puissance4;
@@ -37,7 +38,7 @@ public class GameController {
             int columnMax =  menu.askForInt("How many columns in your game? (choose between 1 and " + wantedGame.getMaxSize() + "): ", 1, wantedGame.getMaxSize());
             wantedGame.setColumnMax(columnMax);
         }
-        currentGame = wantedGame.createGame(wantedGame.getName(), wantedGame.getWinRule(), wantedGame.getLineMax(), wantedGame.getColumnMax());
+        currentGame = GameFactory.createGame(wantedGame, wantedGame.getName(), wantedGame.getWinRule(), wantedGame.getLineMax(), wantedGame.getColumnMax());
 
 
         menu.displayPlayerChoiceMenu();

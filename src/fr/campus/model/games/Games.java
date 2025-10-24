@@ -24,9 +24,9 @@ public enum Games {
         this.columnMax = columnMax;
     }
 
-    public GameType createGame(String name,  int winRule, int lineMax, int columnMax) {
-        return GameFactory.createGame(this, name, winRule, lineMax, columnMax);
-    }
+//    public GameType createGame(String name,  int winRule, int lineMax, int columnMax) {
+//        return GameFactory.createGame(this, name, winRule, lineMax, columnMax);
+// }
 
     //Getters
     public String getName() {
