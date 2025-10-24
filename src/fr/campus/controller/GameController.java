@@ -9,6 +9,7 @@ import fr.campus.model.games.Puissance4;
 import fr.campus.model.player.BotPlayer;
 import fr.campus.model.player.HumanPlayer;
 import fr.campus.model.player.Player;
+import fr.campus.view.Menu;
 import fr.campus.view.View;
 
 import java.util.Arrays;
@@ -17,9 +18,8 @@ import java.util.List;
 
 public class GameController {
     private final static int PLAYER_LIMIT = 2;
-    private View view;
     private GameType currentGame;
-
+    private Menu menu;
     public GameController() {
         this.view = new View();
     }
@@ -67,32 +67,24 @@ public class GameController {
             if (currentGame instanceof Puissance4) {
                 do {
                     col = getMove(currentPlayer, "Choose a column between 1 and " + columnMax + " (integer expected) : ", 1, columnMax);
-//                    wrongRange = (col < 1 && col > columnMax);
-//                    if(wrongRange) {
-//                        View.message("You're out of bounds!\n");
-//                    }
+
                     freeCell = board.checkColumnAvailability(col);
                     if (!freeCell) {
-                        View.message("Column already full, try again!\n");
+                        View.message("Column already full, try again!\n");//Refacto
                     }
 
-//                } while (wrongRange || !(freeCell));
                 } while (!freeCell);
                 board.updateCell(col, currentPlayer);
             } else {
                 do {
                     line = getMove(currentPlayer, "Choose a line between 1 and " + lineMax + " (integer expected) : ", 1, lineMax);
                     col = getMove(currentPlayer, "Choose a column between 1 and " + columnMax + " (integer expected) : ", 1, columnMax);
-//                    wrongRange = (line < 1 || line > lineMax || col < 1 || col > columnMax);
-//                    if(wrongRange) {
-//                        View.message("You're out of bounds!\n");
-//                    }
+
                     freeCell = board.checkCellAvailability(line, col);
                     if (!freeCell) {
-                        View.message("Cell not empty, try again!\n");
+                        View.message("Cell not empty, try again!\n"); //Refacto
                     }
 
-//                } while (wrongRange || !(freeCell));
                 } while (!freeCell);
                 board.updateCell(line, col, currentPlayer);
             }
@@ -107,9 +99,9 @@ public class GameController {
         view.displayBoard(currentGame.getBoard());
 
         if (results.isWon()) {
-            View.message(lastPlayer.getName() + " wins the game!");
+            View.message(lastPlayer.getName() + " wins the game!");//Refacto
         } else {
-            View.message("It's a tie!");
+            View.message("It's a tie!");//Refacto
         }
     }
 
