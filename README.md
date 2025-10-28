@@ -2,237 +2,196 @@
 
 ```mermaid
 classDiagram
-%% Enumerations
+    direction BT
+    class Board {
+        + Board(int, int)
+        - int boardSizeX
+        - int boardSizeY
+        + checkColumnAvailability(int) boolean
+        + isInWinLine(int, int, int) boolean
+        + isWon(int) boolean
+        + isInWinCol(int, int, int) boolean
+        + updateCell(int, Player) void
+        + isFull(int) boolean
+        - isInWinDiag(int, int, int) boolean
+        - checkDiag(int, int, int, int) boolean
+        + updateCell(int, int, Player) void
+        + getCell(int, int) Cell
+        + checkCellAvailability(int, int) boolean
+        int boardSizeX
+        int boardSizeY
+    }
+    class BotPlayer {
+        + BotPlayer(String, String)
+        + chooseInt(int) int
+    }
+    class Cell {
+        + Cell()
+        - Player player
+        - boolean empty
+        - String content
+        + toString() String
+        Player player
+        String content
+        boolean empty
+    }
     class ControllerState {
         <<enumeration>>
-        NEW
-        INITIALIZED
-        PLAYING
-        ENDED
-        EXIT
+        + ControllerState()
+        + valueOf(String) ControllerState
+        + values() ControllerState[]
     }
-
-    class RoundEnd {
-        <<enumeration>>
-        NOTHING
-        WIN
-        TIE
-        +isWon()
+    class Freestyle {
+        ~ Freestyle(String, int, int, int)
+        + init(Player[]) void
     }
-
-    class Pawn {
-        <<enumeration>>
-        X
-        O
-        -String representation
-        +getRepresentation()
-        +distributePawn()
+    class GameController {
+        + GameController()
+        - getMove(Player, String, int, int) int
+        - createPlayerSet(int) Player[]
+        - play() void
+        + parseUserChoice(int, Class~E~) E
+        - initGame() void
+        + interact() void
+        + parseUserPlayerChoice(int) Player[]
+        - playTurn(Player, int, Board, int) void
+        - parseResults(RoundEnd, Player) void
     }
-
+    class GameFactory {
+        + GameFactory()
+        + createGame(GamesPreset, String, int, int, int) PlayStrategy
+    }
+    class GameType {
+        + GameType(String, int, int, int)
+        # Player[] players
+        # Board board
+        # String name
+        + isOver(int) RoundEnd
+        + init(Player[]) void
+        String name
+        Board board
+        Player[] players
+    }
     class GamesPreset {
         <<enumeration>>
-        TICTACTOE_PRESET
-        PUISSANCE4_PRESET
-        GOMOKU_PRESET
-        FREESTYLE_PRESET
-        -String name
-        -int maxSize
-        -int winRule
-        -int lineMax
-        -int columnMax
-        +getName()
-        +getWinRule()
-        +getLineMax()
-        +getColumnMax()
-        +getMaxSize()
-        +toString()
-        +setWinRule()
-        +setLineMax()
-        +setColumnMax()
+        - GamesPreset(String, int)
+        - GamesPreset(String, int, int, int)
+        - int maxSize
+        - int columnMax
+        - String name
+        - int winRule
+        - int lineMax
+        + valueOf(String) GamesPreset
+        + toString() String
+        + values() GamesPreset[]
+        String name
+        int columnMax
+        int lineMax
+        int winRule
+        int maxSize
     }
-
-%% Interface
-    class PlayStrategy {
-        <<interface>>
-        +init()
-        +isOver()
-        +getName()
-        +getBoard()
-        +getPlayers()
-    }
-
-%% Controller
-    class GameController {
-        -int PLAYER_LIMIT
-        -PlayStrategy currentGame
-        -Menu menu
-        -ControllerState state
-        +GameController()
-        +interact()
-        -initGame()
-        -play()
-        -playTurn()
-        -parseResults()
-        -getMove()
-        -createPlayerSet()
-        +parseUserChoice()
-        +parseUserPlayerChoice()
-    }
-
-%% Model - Board
-    class Board {
-        -Cell[][] board
-        -int boardSizeY
-        -int boardSizeX
-        +Board()
-        +isWon()
-        -isInWinDiag()
-        -checkDiag()
-        +isInWinCol()
-        +isInWinLine()
-        +isFull()
-        +updateCell()
-        +checkCellAvailability()
-        +checkColumnAvailability()
-        +getCell()
-        +getBoardSizeX()
-        +getBoardSizeY()
-    }
-
-    class Cell {
-        -String content
-        -Player player
-        -boolean empty
-        +Cell()
-        +setPlayer()
-        -setContent()
-        +toString()
-        +getPlayer()
-        +isEmpty()
-    }
-
-%% Model - Games
-    class GameType {
-        <<abstract>>
-        #String name
-        #Player[] players
-        #Board board
-        #int winRule
-        #int lineMax
-        #int columnMax
-        #RoundEnd status
-        +GameType()
-        +init()
-        +isOver()
-        +getName()
-        +getBoard()
-        +getPlayers()
-    }
-
-    class TicTacToe {
-        +TicTacToe()
-    }
-
-    class Puissance4 {
-        +Puissance4()
-    }
-
     class Gomoku {
-        +Gomoku()
+        ~ Gomoku(String, int, int, int)
     }
-
-    class Freestyle {
-        +Freestyle()
-        +init()
-    }
-
-    class GameFactory {
-        <<factory>>
-        +createGame()
-    }
-
-%% Model - Players
-    class Player {
-        <<abstract>>
-        -String name
-        -String pawn
-        +Player()
-        +chooseInt()
-        +getName()
-        +getPawn()
-    }
-
     class HumanPlayer {
-        +HumanPlayer()
-        +chooseInt()
+        + HumanPlayer(String, String)
+        + chooseInt(int) int
     }
-
-    class BotPlayer {
-        +BotPlayer()
-        +chooseInt()
+    class Main {
+        + Main()
+        + main(String[]) void
     }
-
-%% View
     class Menu {
-        -View view
-        -UserInteraction userInteraction
-        +Menu()
-        +displayGameChoiceMenu()
-        +displayPlayerChoiceMenu()
-        +displayBoard()
-        +askForInt()
-        -intVerification()
-        +showLog()
+        + Menu()
+        + showLog(String) void
+        + displayPlayerChoiceMenu() void
+        + askForInt(String, int, int) int
+        + displayGameChoiceMenu() void
+        - intVerification(int) int
+        + displayBoard(Board) void
     }
-
-    class View {
-        +displayLog()
-        +displayBoard()
+    class Pawn {
+        <<enumeration>>
+        - Pawn(String)
+        - String representation
+        + valueOf(String) Pawn
+        + values() Pawn[]
+        + distributePawn(int) Pawn
+        String representation
     }
-
+    class PlayStrategy {
+        <<Interface>>
+        + isOver(int) RoundEnd
+        + init(Player[]) void
+        String name
+        Board board
+        Player[] players
+    }
+    class Player {
+        + Player(String, String)
+        - String pawn
+        - String name
+        + chooseInt(int) int
+        String name
+        String pawn
+    }
+    class Puissance4 {
+        ~ Puissance4(String, int, int, int)
+    }
+    class RoundEnd {
+        <<enumeration>>
+        + RoundEnd()
+        + values() RoundEnd[]
+        + valueOf(String) RoundEnd
+        boolean won
+    }
+    class TicTacToe {
+        ~ TicTacToe(String, int, int, int)
+    }
     class UserInteraction {
-        -Scanner sc
-        +getUserInt()
-        +getUserString()
-        +clearBuffer()
+        + UserInteraction()
+        + clearBuffer() void
+        String userString
+        int userInt
+    }
+    class View {
+        + View()
+        + displayBoard(Board) void
+        + displayLog(String) void
     }
 
-%% Relationships
-    GameController --> ControllerState
-    GameController --> PlayStrategy
-    GameController --> Menu
-    GameController --> Player
-    GameController --> GamesPreset
-    GameController --> GameFactory
+    Board "1" *--> "board *" Cell
+    Board  ..>  Cell : «create»
+    BotPlayer  -->  Player
+    Cell "1" *--> "player 1" Player
+    Freestyle  ..>  Board : «create»
+    Freestyle  -->  GameType
+    GameController  ..>  BotPlayer : «create»
+    GameController "1" *--> "state 1" ControllerState
+    GameController  ..>  HumanPlayer : «create»
+    GameController "1" *--> "menu 1" Menu
+    GameController  ..>  Menu : «create»
+    GameController "1" *--> "currentGame 1" PlayStrategy
+    GameController  ..>  Player : «create»
+    GameFactory  ..>  Freestyle : «create»
+    GameFactory  ..>  Gomoku : «create»
+    GameFactory  ..>  Puissance4 : «create»
+    GameFactory  ..>  TicTacToe : «create»
+    GameType "1" *--> "board 1" Board
+    GameType  ..>  Board : «create»
+    GameType  ..>  PlayStrategy
+    GameType "1" *--> "players *" Player
+    GameType "1" *--> "status 1" RoundEnd
+    Gomoku  -->  GameType
+    HumanPlayer  -->  Player
+    Main  ..>  GameController : «create»
+    Menu "1" *--> "userInteraction 1" UserInteraction
+    Menu  ..>  UserInteraction : «create»
+    Menu  ..>  View : «create»
+    Menu "1" *--> "view 1" View
+    Puissance4  -->  GameType
+    TicTacToe  -->  GameType
 
-    PlayStrategy <|.. GameType
-    GameType <|-- TicTacToe
-    GameType <|-- Puissance4
-    GameType <|-- Gomoku
-    GameType <|-- Freestyle
-
-    GameType --> Board
-    GameType --> Player
-    GameType --> RoundEnd
-
-    Board --> Cell
-    Cell --> Player
-
-    Player <|-- HumanPlayer
-    Player <|-- BotPlayer
-
-    GameFactory --> PlayStrategy
-    GameFactory --> GamesPreset
-    GameFactory ..> TicTacToe
-    GameFactory ..> Puissance4
-    GameFactory ..> Gomoku
-    GameFactory ..> Freestyle
-
-    Menu --> View
-    Menu --> UserInteraction
-    Menu --> Board
-
-    Cell --> Pawn
 
 ``` 
 ## OLD VERSION
